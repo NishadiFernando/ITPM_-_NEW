@@ -1,0 +1,138 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Poppins:wght@300;400;500&display=swap');
+
+.admin-dashboard {
+    min-height: 100vh;
+    background: url('https://www.transparenttextures.com/patterns/lace.png') repeat, linear-gradient(135deg, #f9f5f6 0%, #f5e1e3 100%);
+    background-size: auto, cover;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.dashboard-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: #4F032A;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+    margin-bottom: 10px;
+}
+
+.dashboard-header p {
+    font-size: 1.2rem;
+    color: #666;
+    font-weight: 300;
+}
+
+.add-saree-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+    border: 2px solid #F5C6CB; /* Cherry blossom pink border with embroidery style */
+    position: relative;
+}
+
+/* Embroidery-style border effect */
+.add-saree-container::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border: 2px dashed #D4AF37; /* Gold dashed border for embroidery effect */
+    border-radius: 20px;
+    pointer-events: none;
+}
+
+.add-saree-form {
+    width: 100%;
+}
+
+.add-saree-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.label-cell {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #4F032A;
+    padding: 15px;
+    text-align: right;
+    border-bottom: 1px solid #F5C6CB;
+    background-color: rgba(245, 198, 203, 0.1); /* Light cherry blossom pink background */
+}
+
+.input-cell {
+    padding: 15px;
+    border-bottom: 1px solid #F5C6CB;
+}
+
+.input-cell input,
+.input-cell select,
+.input-cell textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #D4AF37; /* Gold border for embroidery effect */
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    color: #333;
+    background-color: #fff;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-cell input:focus,
+.input-cell select:focus,
+.input-cell textarea:focus {
+    outline: none;
+    border-color: #F5C6CB;
+    box-shadow: 0 0 8px rgba(245, 198, 203, 0.5);
+}
+
+.input-cell input[type="color"] {
+    padding: 2px;
+    height: 40px;
+    cursor: pointer;
+}
+
+.input-cell textarea {
+    resize: vertical;
+}
+
+.submit-cell {
+    text-align: center;
+    padding: 20px;
+}
+
+.submit-cell button {
+    background-color: #4F032A;
+    color: #ffffff;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.submit-cell button:hover {
+    background-color: #8B2E5A;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
