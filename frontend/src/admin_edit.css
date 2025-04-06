@@ -1,0 +1,268 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Poppins:wght@300;400;500&display=swap');
+
+.admin-dashboard {
+    min-height: 100vh;
+    background: url('https://www.transparenttextures.com/patterns/lace.png') repeat, linear-gradient(135deg, #f9f5f6 0%, #f5e1e3 100%);
+    background-size: auto, cover;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.dashboard-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: #4F032A;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+    margin-bottom: 10px;
+}
+
+.dashboard-header p {
+    font-size: 1.2rem;
+    color: #666;
+    font-weight: 300;
+}
+
+/* Saree List Styles */
+.saree-list-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    width: 100%;
+    border: 2px solid #F5C6CB;
+    position: relative;
+}
+
+.saree-list-container::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border: 2px dashed #D4AF37;
+    border-radius: 20px;
+    pointer-events: none;
+}
+
+.saree-list-container h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: #4F032A;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.saree-list-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.saree-list-table th,
+.saree-list-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #F5C6CB;
+}
+
+.saree-list-table th {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #4F032A;
+    background-color: rgba(245, 198, 203, 0.1);
+}
+
+.saree-list-table td {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    color: #333;
+}
+
+.edit-btn,
+.delete-btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.edit-btn {
+    background-color: #D4AF37;
+    color: #fff;
+}
+
+.edit-btn:hover {
+    background-color: #b89b2f;
+    transform: scale(1.05);
+}
+
+.delete-btn {
+    background-color: #8B2E5A;
+    color: #fff;
+}
+
+.delete-btn:hover {
+    background-color: #6b2345;
+    transform: scale(1.05);
+}
+
+/* Edit Form Styles */
+.edit-saree-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+    border: 2px solid #F5C6CB;
+    position: relative;
+}
+
+.edit-saree-container::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border: 2px dashed #D4AF37;
+    border-radius: 20px;
+    pointer-events: none;
+}
+
+.edit-saree-container h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: #4F032A;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.edit-saree-form {
+    width: 100%;
+}
+
+.edit-saree-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.label-cell {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #4F032A;
+    padding: 15px;
+    text-align: right;
+    border-bottom: 1px solid #F5C6CB;
+    background-color: rgba(245, 198, 203, 0.1);
+}
+
+.input-cell {
+    padding: 15px;
+    border-bottom: 1px solid #F5C6CB;
+}
+
+.input-cell input,
+.input-cell select,
+.input-cell textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #D4AF37;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    color: #333;
+    background-color: #fff;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-cell input:focus,
+.input-cell select:focus,
+.input-cell textarea:focus {
+    outline: none;
+    border-color: #F5C6CB;
+    box-shadow: 0 0 8px rgba(245, 198, 203, 0.5);
+}
+
+.input-cell input[type="color"],
+.input-cell input[type="date"] {
+    padding: 2px;
+    height: 40px;
+    cursor: pointer;
+}
+
+.input-cell textarea {
+    resize: vertical;
+}
+
+.submit-cell {
+    text-align: center;
+    padding: 20px;
+}
+
+.submit-cell button {
+    background-color: #4F032A;
+    color: #ffffff;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    margin-right: 10px;
+}
+
+.submit-cell button:hover {
+    background-color: #8B2E5A;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.cancel-btn {
+    background-color: #D4AF37;
+}
+
+.cancel-btn:hover {
+    background-color: #b89b2f;
+}
+
+.price-filter {
+    text-align: center;
+    margin-bottom: 25px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    color: #4F032A;
+}
+
+.price-filter label {
+    margin-right: 8px;
+}
+
+.price-filter input {
+    width: 120px;
+    padding: 8px;
+    margin: 5px 10px;
+    border: 1px solid #D4AF37;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+}
