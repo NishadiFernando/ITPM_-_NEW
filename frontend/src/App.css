@@ -5,7 +5,7 @@ body {
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    background: linear-gradient(135deg, #fdf7f7 0%, #f8e6e6 50%, #f5d6d6 100%);
+    background: linear-gradient(135deg, #FDF5F5 0%, #F8E6E6 25%, #F5D6D6 50%, #EBC5C5 75%, #E2B4B4 100%);
     position: relative;
     overflow-x: hidden;
 }
@@ -19,9 +19,9 @@ body::before {
     width: 100%;
     height: 100%;
     background: 
-        radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.05) 0%, transparent 20%),
-        radial-gradient(circle at 90% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 20%),
-        radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 30%);
+        radial-gradient(circle at 10% 20%, rgba(79, 3, 42, 0.03) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(79, 3, 42, 0.03) 0%, transparent 20%),
+        radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.03) 0%, transparent 30%);
     pointer-events: none;
     z-index: -1;
     animation: backgroundFloat 20s ease-in-out infinite;
@@ -190,18 +190,19 @@ body::before {
 /* Saree Card Styles */
 .saree-card {
     position: relative;
-    background: white;
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(10px);
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     margin-bottom: 20px;
     padding: 15px;
 }
 
 .saree-card:hover {
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(79, 3, 42, 0.15) !important;
 }
 
 .saree-card::after {
@@ -379,47 +380,45 @@ body::before {
     transform: translateY(0);
 }
 
+/* Out of Stock Badge Styles */
+.out-of-stock-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #FF0000;
+    color: #fff;
+    padding: 8px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    transform: rotate(-15deg);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    border-radius: 5px;
+    z-index: 2;
+}
+
+/* Sale Badge Styles */
 .sale-badge {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 20px;
+    right: 20px;
     background: linear-gradient(45deg, #D4AF37, #FFD700);
     color: #4F032A;
-    padding: 5px 15px;
-    border-radius: 4px;
+    padding: 8px 15px;
+    font-size: 14px;
     font-weight: bold;
-    font-size: 0.9rem;
+    border-radius: 5px;
     z-index: 2;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     animation: pulse 2s infinite;
-    display: block;
     text-transform: uppercase;
     letter-spacing: 1px;
-    position: relative;
-    overflow: hidden;
 }
 
-.sale-badge::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    transform: rotate(45deg);
-    animation: shine 3s infinite;
-}
-
+/* Badge animations */
 @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
-
-@keyframes shine {
-    0% { transform: translateX(-100%) rotate(45deg); }
-    100% { transform: translateX(100%) rotate(45deg); }
+    0% { transform: scale(1) rotate(-15deg); }
+    50% { transform: scale(1.05) rotate(-15deg); }
+    100% { transform: scale(1) rotate(-15deg); }
 }
 
 .description-points {
@@ -460,5 +459,36 @@ body::before {
 
 .description-points li:last-child {
     margin-bottom: 0;
+}
+
+/* Price and Color Styles in Card */
+.saree-price {
+    color: #FF0000 !important;
+    font-size: 1.2rem !important;
+    font-weight: 600 !important;
+    margin-bottom: 8px !important;
+}
+
+.saree-color {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.color-dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    display: inline-block;
+    border: 1px solid #ddd;
+}
+
+.customer-page {
+    background-color: rgba(255, 255, 255, 0.5);
+    min-height: 100vh;
+    padding: 20px 0;
 }
 
