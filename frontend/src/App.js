@@ -9,7 +9,11 @@ import AboutUs from './AboutUs';
 import Admin from './Admin';
 import FlashSale from './FlashSale';
 
+
 import TailorHome from './Tailor/TailorHome';
+
+
+
 
 // Wrap App with Router
 function AppWrapper() {
@@ -23,7 +27,9 @@ function AppWrapper() {
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/flash-sale" element={<FlashSale />} />
 
+
                 <Route path="/customization" element={<TailorHome />} />
+
             </Routes>
         </Router>
     );
