@@ -31,7 +31,8 @@ const CustomNavbar = ({ onWishlistClick, onSearchClick }) => {
             <Nav.Link as={Link} to="/flash-sale" className="nav-link-custom">
               Flash Sale
             </Nav.Link>
-            <Nav.Link href="#customization" className="nav-link-custom">
+            {/* Updated Customization link to use Link and point to /customization */}
+            <Nav.Link as={Link} to="/customization" className="nav-link-custom">
               Customization
             </Nav.Link>
             <Nav.Link href="#sell-your-saree" className="nav-link-custom">
