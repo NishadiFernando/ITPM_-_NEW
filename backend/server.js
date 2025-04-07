@@ -3,22 +3,37 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
+require('dotenv').config();
+
+// Import models
 const Saree = require('./models/Saree');
+const Tailor = require('./models/Tailor');
+const CustomizationRequest = require('./models/CustomizationRequest');
+
+// Import routes
+const customizationRequestsRouter = require('./routes/customizationRequests');
+const tailorsRouter = require('./routes/tailors');
+const dashboardRoutes = require('./routes/dashboard');
+const emailRoutes = require('./routes/email');
+const customizationRoutes = require('./routes/customization');
 
 const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads/tailors', express.static(path.join(__dirname, 'uploads/tailors')));
+app.use('/uploads/customization', express.static(path.join(__dirname, 'uploads/customization')));
 
 // MongoDB Connection
-mongoose.connect('mongodb://localhost:27017/punarvasthra', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/punarvasthra', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
-    .then(() => console.log('MongoDB connected'))
-    .catch(err => console.log(err));
+.then(() => console.log('Connected to MongoDB'))
+.catch(err => console.error('MongoDB connection error:', err));
 
 // Multer Setup for File Upload
 const storage = multer.diskStorage({
@@ -31,7 +46,22 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
+// Create required directories
+const dirs = ['uploads', 'uploads/tailors', 'uploads/customization'];
+dirs.forEach(dir => {
+    const dirPath = path.join(__dirname, dir);
+    if (!require('fs').existsSync(dirPath)) {
+        require('fs').mkdirSync(dirPath, { recursive: true });
+    }
+});
+
 // Routes
+app.use('/api/customization-requests', customizationRequestsRouter);
+app.use('/api/tailors', tailorsRouter);
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api', emailRoutes);
+app.use('/api/customization', customizationRoutes);
+
 // Get all sarees
 app.get('/api/sarees', async (req, res) => {
     try {
@@ -119,7 +149,113 @@ app.delete('/api/sarees/:id', async (req, res) => {
     }
 });
 
-const PORT = 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Tailor Routes
+app.get('/api/tailors', async (req, res) => {
+    try {
+        const tailors = await Tailor.find();
+        res.json(tailors);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
 
-//nishadii
+app.get('/api/tailors/active', async (req, res) => {
+    try {
+        const tailors = await Tailor.find({ status: 'Active' });
+        res.json(tailors);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+app.post('/api/tailors', upload.single('profileImage'), async (req, res) => {
+    try {
+        const tailor = new Tailor({
+            name: req.body.name,
+            email: req.body.email,
+            phone: req.body.phone,
+            address: req.body.address,
+            specialization: req.body.specialization,
+            profileImage: req.file ? `/uploads/${req.file.filename}` : null,
+            status: req.body.status
+        });
+        await tailor.save();
+        res.status(201).json(tailor);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
+
+// Customization Request Routes
+app.get('/api/customization-requests', async (req, res) => {
+    try {
+        const requests = await CustomizationRequest.find().sort({ createdAt: -1 });
+        res.json(requests);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+app.post('/api/customization-requests', upload.array('images', 5), async (req, res) => {
+    try {
+        const request = new CustomizationRequest({
+            name: req.body.name,
+            email: req.body.email,
+            phone: req.body.phone,
+            address: req.body.address,
+            material: req.body.material,
+            colorDescription: req.body.colorDescription,
+            specialNotes: req.body.specialNotes,
+            tailor: req.body.tailor,
+            productType: req.body.productType,
+            measurements: JSON.parse(req.body.measurements),
+            isWebsiteItem: req.body.isWebsiteItem === 'true',
+            itemId: req.body.itemId,
+            images: req.files ? req.files.map(file => `/uploads/${file.filename}`) : []
+        });
+        await request.save();
+        res.status(201).json(request);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
+
+app.put('/api/customization-requests/:id', async (req, res) => {
+    try {
+        const request = await CustomizationRequest.findById(req.params.id);
+        if (!request) {
+            return res.status(404).json({ message: 'Request not found' });
+        }
+
+        Object.assign(request, req.body);
+        await request.save();
+        res.json(request);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
+
+app.delete('/api/customization-requests/:id', async (req, res) => {
+    try {
+        const request = await CustomizationRequest.findById(req.params.id);
+        if (!request) {
+            return res.status(404).json({ message: 'Request not found' });
+        }
+        await request.deleteOne();
+        res.json({ message: 'Request deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+    console.log('Email service configured with:', process.env.EMAIL_USER);
+});
