@@ -1,0 +1,168 @@
+.our-tailors {
+  padding: 40px 20px;
+  background-color: #FFF5F5;
+  min-height: calc(100vh - 80px); /* Subtract navbar height */
+}
+
+.section-title {
+  text-align: center;
+  color: #4F032A;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.section-description {
+  text-align: center;
+  color: #666;
+  max-width: 800px;
+  margin: 0 auto 3rem;
+  line-height: 1.6;
+}
+
+.tailor-card {
+  background: white;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  overflow: hidden;
+  margin-bottom: 20px;
+  height: 100%;
+}
+
+.tailor-card:hover {
+  transform: translateY(-5px);
+}
+
+.tailor-image-container {
+  width: 150px;
+  height: 150px;
+  margin: 20px auto;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #4F032A;
+  position: relative;
+}
+
+.tailor-profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tailor-profile-initial {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #4F032A;
+  color: white;
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.tailor-name {
+  color: #4F032A;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.rating {
+  margin-bottom: 1rem;
+}
+
+.star {
+  color: #FFD700;
+  font-size: 1.2rem;
+  margin: 0 2px;
+}
+
+.specializations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 1rem;
+  padding: 0 10px;
+}
+
+.specialization-tag {
+  background-color: #FFE4E4;
+  color: #4F032A;
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-size: 0.9rem;
+}
+
+.tailor-info {
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin-top: 1rem;
+}
+
+.tailor-info p {
+  margin-bottom: 0.5rem;
+}
+
+.loading-container {
+  text-align: center;
+  padding: 50px;
+  min-height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #FFF5F5;
+}
+
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #4F032A;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-message {
+  text-align: center;
+  color: #dc3545;
+  padding: 20px;
+  font-size: 1.1rem;
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FFF5F5;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .tailor-image-container {
+    width: 120px;
+    height: 120px;
+  }
+
+  .tailor-name {
+    font-size: 1.2rem;
+  }
+
+  .specialization-tag {
+    font-size: 0.8rem;
+    padding: 4px 10px;
+  }
+} 
