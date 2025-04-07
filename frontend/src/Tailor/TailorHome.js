@@ -1,5 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import CustomNavbar from '../Navbar'; // Adjust the path based on your folder structure
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../App.css'; // Assuming styles are in App.css
 
 const TailorHome = () => {
   const styles = {
@@ -56,53 +59,25 @@ const TailorHome = () => {
       border: '2px solid #FFD700',
       color: '#FFD700',
     },
-    nav: {
-      position: 'absolute',
-      top: 0,
-      width: '100%',
-      padding: '1rem',
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      backgroundColor: 'rgba(255, 255, 255, 0.9)',  // Changed to white background with opacity
-    },
-    logo: {
-      color: '#000000',  // Changed to black
-      fontSize: '2rem',
-      fontStyle: 'italic',
-      textDecoration: 'none',
-    },
-    navLinks: {
-      display: 'flex',
-      gap: '2rem',
-    },
-    navLink: {
-      color: '#000000',  // Changed to black
-      textDecoration: 'none',
-      fontSize: '1.1rem',
-    },
   };
+
+  // Dummy handlers since TailorHome doesn't need wishlist or search functionality
+  const handleWishlistClick = (e) => e.preventDefault();
+  const handleSearchClick = (e) => e.preventDefault();
 
   return (
     <div style={styles.container}>
-      <nav style={styles.nav}>
-        <Link to="/" style={styles.logo}>
-         
-        </Link>
-        <div style={styles.navLinks}>
-          <Link to="/" style={styles.navLink}></Link>
-          <Link to="/our-tailors" style={styles.navLink}></Link>
-          <Link to="/customize" style={styles.navLink}></Link>
-        </div>
-      </nav>
+      {/* Use the CustomNavbar component */}
+      <CustomNavbar onWishlistClick={handleWishlistClick} onSearchClick={handleSearchClick} />
+      
       <div style={styles.backgroundImage}>
         <h1 style={styles.header}>Your Vision, Our Craft</h1>
         <p style={styles.subheader}>Breathe New Life into Your Sarees - Custom Creations Just for You!</p>
         <div style={styles.buttonContainer}>
-          <Link to="/customize" style={{...styles.button, ...styles.primaryButton}}>
+          <Link to="/customize" style={{ ...styles.button, ...styles.primaryButton }}>
             CUSTOMIZE NOW
           </Link>
-          <Link to="/our-tailors" style={{...styles.button, ...styles.secondaryButton}}>
+          <Link to="/our-tailors" style={{ ...styles.button, ...styles.secondaryButton }}>
             OUR TAILORS
           </Link>
         </div>
@@ -111,4 +86,4 @@ const TailorHome = () => {
   );
 };
 
-export default TailorHome; 
+export default TailorHome;
