@@ -18,8 +18,6 @@ import TailorAdmin from './Tailor/TailorAdmin';
 import TailorDashboard from './Tailor/TailorDashboard';
 import DashboardOverview from './Tailor/DashboardOverview';
 import TailorManagement from './Tailor/TailorManagement';
-import TailorHome from './Tailor/TailorHome';
-
 
 function AppWrapper() {
     return (
@@ -32,7 +30,6 @@ function AppWrapper() {
                 <Route path="/admin/edit" element={<AdminEdit />} />
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/flash-sale" element={<FlashSale />} />
-                <Route path="/customization" element={<TailorHome />} />
 
                 {/* Tailor routes */}
                 <Route path="/customization" element={<TailorHome />} />
@@ -53,7 +50,6 @@ function AppWrapper() {
                 {/* Individual Tailor Dashboard */}
                 <Route path="/tailor-dashboard" element={<TailorDashboard />} />
                 <Route path="/customization-requests" element={<CustomizationRequests />} />
-
             </Routes>
         </Router>
     );
