@@ -55,7 +55,7 @@ body::before {
 }
 
 .custom-logo {
-    font-family: 'Dancing Script', cursive;
+    font-family: 'Dancing+Script', cursive;
     font-size: 2.8rem;
     color: #D4AF37 !important; /* Gold color for the logo */
     position: relative;
@@ -81,7 +81,7 @@ body::before {
 }
 
 .nav-link-custom {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Playfair+Display', serif;
     font-weight: 500;
     font-size: 1.1rem;
     color: #ffffff !important;
@@ -154,7 +154,7 @@ body::before {
 }
 
 .hero-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Playfair+Display', serif;
     font-size: 3.5rem;
     font-weight: 600;
     margin-bottom: 20px;
@@ -165,7 +165,7 @@ body::before {
 }
 
 .hero-subtitle {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Playfair+Display', serif;
     font-size: 1.5rem; /* Increased font size for better readability */
     font-weight: 400;
     line-height: 1.6;
@@ -235,7 +235,7 @@ body::before {
 }
 
 .saree-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Playfair+Display', serif;
     font-size: 1.3rem;
     font-weight: 500;
     color: #2c3e50;
@@ -274,6 +274,7 @@ body::before {
     color: #FF0000;
     background: linear-gradient(45deg, #FF0000, #FF4500);
     -webkit-background-clip: text;
+    background-clip: text; /* Added standard property for compatibility */
     -webkit-text-fill-color: transparent;
     padding: 0 5px;
     animation: pricePulse 2s infinite;
@@ -491,4 +492,3 @@ body::before {
     min-height: 100vh;
     padding: 20px 0;
 }
-

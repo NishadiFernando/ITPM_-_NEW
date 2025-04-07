@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import './AboutUs.css';
+import CustomNavbar from './Navbar'; // Import the new Navbar component
 
 // Local images from public folder
 const images = {
@@ -13,6 +14,7 @@ const images = {
 function AboutUs() {
     return (
         <div className="about-us-page">
+            <CustomNavbar />
             {/* Hero Section */}
             <div className="hero-section" style={{
                 background: `linear-gradient(rgba(79, 3, 42, 0.9), rgba(79, 3, 42, 0.7)),
