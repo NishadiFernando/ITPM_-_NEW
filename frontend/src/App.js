@@ -10,8 +10,8 @@ import Admin from './Admin';
 import FlashSale from './FlashSale';
 import TailorHome from './Tailor/TailorHome';
 import CustomizationPage from './Tailor/CustomizationPage';
+import SareeOptions from './Tailor/SareeOptions';
 
-// Wrap App with Router
 function AppWrapper() {
     return (
         <Router>
@@ -22,10 +22,10 @@ function AppWrapper() {
                 <Route path="/admin/edit" element={<AdminEdit />} />
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/flash-sale" element={<FlashSale />} />
-
                 <Route path="/customization" element={<TailorHome />} />
                 <Route path="/customize" element={<CustomizationPage />} />
-
+                <Route path="/website-saree" element={<SareeOptions />} />
+                <Route path="/own-saree" element={<SareeOptions />} />
             </Routes>
         </Router>
     );
