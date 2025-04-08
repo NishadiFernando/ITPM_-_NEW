@@ -18,8 +18,11 @@ import TailorAdmin from './Tailor/TailorAdmin';
 import TailorDashboard from './Tailor/TailorDashboard';
 import DashboardOverview from './Tailor/DashboardOverview';
 import TailorManagement from './Tailor/TailorManagement';
+import Cart from './cart';
+import OrderForm from './OrderForm';
+import AdminDashboard from './AdminDashboard';
 
-function AppWrapper() {
+function App() {
     return (
         <Router>
             <Routes>
@@ -50,9 +53,16 @@ function AppWrapper() {
                 {/* Individual Tailor Dashboard */}
                 <Route path="/tailor-dashboard" element={<TailorDashboard />} />
                 <Route path="/customization-requests" element={<CustomizationRequests />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/order-form" element={<OrderForm />} />
+
+                {/* Admin Dashboard route */}
+                <Route path="/admin/orders" element={<AdminDashboard />} />
+
+                {/* Add more routes as needed */}
             </Routes>
         </Router>
     );
 }
 
-export default AppWrapper;
+export default App;

@@ -1,11 +1,18 @@
 import React from 'react';
 import { Container, Navbar, Nav } from 'react-bootstrap';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom'; // Add useNavigate
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'; // Assuming the styles are in App.css
 
 const CustomNavbar = ({ onWishlistClick, onSearchClick }) => {
   const location = useLocation();
+  const navigate = useNavigate(); // Add navigate hook
+
+  // Add handler for cart click
+  const handleCartClick = (e) => {
+    e.preventDefault();
+    navigate('/cart');
+  };
 
   // Conditionally render navbar based on the current path
   if (
@@ -31,7 +38,6 @@ const CustomNavbar = ({ onWishlistClick, onSearchClick }) => {
             <Nav.Link as={Link} to="/flash-sale" className="nav-link-custom">
               Flash Sale
             </Nav.Link>
-            {/* Updated Customization link to use Link and point to /customization */}
             <Nav.Link as={Link} to="/customization" className="nav-link-custom">
               Customization
             </Nav.Link>
@@ -62,7 +68,11 @@ const CustomNavbar = ({ onWishlistClick, onSearchClick }) => {
             >
               ❤
             </Nav.Link>
-            <Nav.Link as={Link} to="#cart" className="nav-link-custom">
+            <Nav.Link
+              onClick={handleCartClick}
+              className="nav-link-custom"
+              style={{ cursor: 'pointer' }}
+            >
               🛒
             </Nav.Link>
           </Nav>
