@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { Container, Row, Col, Card, Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; // Removed Link import
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import CustomNavbar from './Navbar'; // Import the new Navbar component
@@ -19,6 +19,7 @@ function CustomerPage() {
   const [searchMainColor, setSearchMainColor] = useState('');
   const [searchFabric, setSearchFabric] = useState('');
   const [filteredSarees, setFilteredSarees] = useState([]);
+  const navigate = useNavigate();
 
   const handleWishlistClick = (e) => {
     e.preventDefault();
@@ -97,12 +98,39 @@ function CustomerPage() {
     setActiveSection(null);
   };
 
-  const handleBuyNow = (saree) => {
-    alert(`Proceeding to buy: ${saree.title} (Quantity: ${quantity})`);
+  const handleAddToCart = (saree) => {
+    // Get existing cart
+    const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
+    
+    // Check if item already exists
+    const existingItemIndex = existingCart.findIndex(item => item._id === saree._id);
+    
+    if (existingItemIndex !== -1) {
+        // Update quantity if item exists
+        existingCart[existingItemIndex].quantity += quantity;
+    } else {
+        // Add new item with quantity
+        const cartItem = {
+            _id: saree._id,
+            title: saree.title,
+            price: saree.price,
+            image: saree.image,
+            mainColor: saree.mainColor,
+            fabric: saree.fabric,
+            quantity: quantity
+        };
+        existingCart.push(cartItem);
+    }
+    
+    // Save to localStorage
+    localStorage.setItem('cart', JSON.stringify(existingCart));
+    alert(`Added ${quantity} ${saree.title} to cart`);
+    setQuantity(1);
   };
 
-  const handleAddToCart = (saree) => {
-    alert(`Added to cart: ${saree.title} (Quantity: ${quantity})`);
+  const handleBuyNow = (saree) => {
+    handleAddToCart(saree);
+    navigate('/cart');
   };
 
   const handleAddToWishlist = (saree) => {
@@ -189,6 +217,100 @@ function CustomerPage() {
 
           .buy-now-slide {
             animation: slideIn 0.7s ease-out forwards;
+          }
+
+          .saree-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+          }
+
+          .saree-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+          }
+
+          .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: auto;
+          }
+
+          .view-details-btn {
+            background-color: #4F032A;
+            border-color: #4F032A;
+            color: white;
+            width: 100%;
+            padding: 8px 15px;
+            transition: all 0.3s ease;
+          }
+
+          .view-details-btn:hover {
+            background-color: #6B0B3D;
+            border-color: #6B0B3D;
+            transform: translateY(-2px);
+          }
+
+          .add-to-cart-btn {
+            background-color: #FFD700;
+            border-color: #FFD700;
+            color: #000;
+            width: 100%;
+            padding: 8px 15px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+          }
+
+          .add-to-cart-btn:hover {
+            background-color: #FF8C00;
+            border-color: #FF8C00;
+            color: #000;
+            transform: translateY(-2px);
+          }
+
+          .add-to-cart-btn:disabled {
+            background-color: #ccc;
+            border-color: #ccc;
+            color: #666;
+            cursor: not-allowed;
+          }
+
+          .saree-card .card-body {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 1.25rem;
+          }
+
+          .saree-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+          }
+
+          .saree-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #4F032A;
+            margin-bottom: 0.5rem;
+          }
+
+          .saree-color {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 1rem;
+          }
+
+          .color-dot {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
           }
         `}
       </style>
@@ -588,14 +710,28 @@ function CustomerPage() {
                     <Card.Body>
                       <Card.Title className="saree-title">{saree.title}</Card.Title>
                       <Card.Text className="saree-price">LKR {saree.price}</Card.Text>
-                      <div className="saree-color">
+                      <div className="saree-color mb-2">
                         <span>Color:</span>
                         <span className="color-dot" style={{ backgroundColor: saree.color }}></span>
                         <span>{saree.mainColor}</span>
                       </div>
-                      <Button className="view-details-btn" onClick={() => handleViewDetails(saree)}>
-                        View Details
-                      </Button>
+                      <div className="button-container">
+                        <Button 
+                          className="view-details-btn mb-2"
+                          onClick={() => handleViewDetails(saree)}
+                        >
+                          View Details
+                        </Button>
+                        <Button 
+                          className="add-to-cart-btn"
+                          variant="primary" 
+                          onClick={() => handleAddToCart(saree)}
+                          disabled={saree.stockAvailability === 'Out of Stock'}
+                        >
+                          <i className="fas fa-shopping-cart me-2"></i>
+                          Add to Cart
+                        </Button>
+                      </div>
                     </Card.Body>
                   </Card>
                 </Col>
@@ -659,18 +795,28 @@ function CustomerPage() {
                     <Card.Body>
                       <Card.Title className="saree-title">{saree.title}</Card.Title>
                       <Card.Text className="saree-price">LKR {saree.price}</Card.Text>
-                      <div className="saree-color">
+                      <div className="saree-color mb-2">
                         <span>Color:</span>
                         <span className="color-dot" style={{ backgroundColor: saree.color }}></span>
                         <span>{saree.mainColor}</span>
                       </div>
-                      <Button
-                        className="view-details-btn mb-2"
-                        onClick={() => handleViewDetails(saree)}
-                        style={{ width: '100%' }}
-                      >
-                        View Details
-                      </Button>
+                      <div className="button-container">
+                        <Button 
+                          className="view-details-btn mb-2"
+                          onClick={() => handleViewDetails(saree)}
+                        >
+                          View Details
+                        </Button>
+                        <Button 
+                          className="add-to-cart-btn"
+                          variant="primary" 
+                          onClick={() => handleAddToCart(saree)}
+                          disabled={saree.stockAvailability === 'Out of Stock'}
+                        >
+                          <i className="fas fa-shopping-cart me-2"></i>
+                          Add to Cart
+                        </Button>
+                      </div>
                       <Button
                         variant="outline-danger"
                         onClick={() => handleRemoveFromWishlist(saree._id)}
@@ -714,14 +860,28 @@ function CustomerPage() {
                     <Card.Body>
                       <Card.Title className="saree-title">{saree.title}</Card.Title>
                       <Card.Text className="saree-price">LKR {saree.price}</Card.Text>
-                      <div className="saree-color">
+                      <div className="saree-color mb-2">
                         <span>Color:</span>
                         <span className="color-dot" style={{ backgroundColor: saree.color }}></span>
                         <span>{saree.mainColor}</span>
                       </div>
-                      <Button className="view-details-btn" onClick={() => handleViewDetails(saree)}>
-                        View Details
-                      </Button>
+                      <div className="button-container">
+                        <Button 
+                          className="view-details-btn mb-2"
+                          onClick={() => handleViewDetails(saree)}
+                        >
+                          View Details
+                        </Button>
+                        <Button 
+                          className="add-to-cart-btn"
+                          variant="primary" 
+                          onClick={() => handleAddToCart(saree)}
+                          disabled={saree.stockAvailability === 'Out of Stock'}
+                        >
+                          <i className="fas fa-shopping-cart me-2"></i>
+                          Add to Cart
+                        </Button>
+                      </div>
                     </Card.Body>
                   </Card>
                 </Col>

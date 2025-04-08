@@ -1,3 +1,5 @@
+/* App.css */
+
 /* Import Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@400;500;600&family=Poppins:wght@300;400;500;600&display=swap');
 
@@ -491,4 +493,33 @@ body::before {
     background-color: rgba(255, 255, 255, 0.5);
     min-height: 100vh;
     padding: 20px 0;
+}
+
+/* Override styles for admin-dashboard to remove blur and background effects */
+.admin-dashboard {
+    background: #f8f9fa !important; /* Solid background */
+    background-image: none !important; /* Remove any background image */
+    filter: none !important; /* Remove any blur */
+    -webkit-filter: none !important;
+    backdrop-filter: none !important; /* Remove backdrop blur */
+    z-index: 1000 !important;
+}
+
+.admin-dashboard::before {
+    content: none !important; /* Remove any pseudo-elements */
+}
+
+.orders-table-container {
+    background: #ffffff !important; /* Solid white background */
+    background-image: none !important;
+    filter: none !important;
+    -webkit-filter: none !important;
+    backdrop-filter: none !important; /* Explicitly remove backdrop blur */
+    z-index: 1001 !important;
+}
+
+.orders-table {
+    filter: none !important;
+    -webkit-filter: none !important;
+    backdrop-filter: none !important;
 }

@@ -16,6 +16,7 @@ const tailorsRouter = require('./routes/tailors');
 const dashboardRoutes = require('./routes/dashboard');
 const emailRoutes = require('./routes/email');
 const customizationRoutes = require('./routes/customization');
+const orderRoutes = require('./routes/orderRoutes');
 
 const app = express();
 
@@ -61,6 +62,7 @@ app.use('/api/tailors', tailorsRouter);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api', emailRoutes);
 app.use('/api/customization', customizationRoutes);
+app.use('/api', orderRoutes);
 
 // Get all sarees
 app.get('/api/sarees', async (req, res) => {
