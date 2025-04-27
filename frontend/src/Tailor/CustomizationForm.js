@@ -73,7 +73,7 @@ const CustomizationForm = () => {
       setMeasurements({});
     } catch (error) {
       console.error('Error submitting form:', error);
-      setError('Failed to submit customization request. Please try again.');
+      setError('Failed to submitt customization request. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -140,7 +140,7 @@ const CustomizationForm = () => {
                 onChange={handleInputChange}
                 required
               >
-                <option value="">Select Material</option>
+                <option value="">Selecct Material</option>
                 {materialOptions.map((material) => (
                   <option key={material} value={material}>
                     {material}
@@ -171,7 +171,7 @@ const CustomizationForm = () => {
             onChange={handleInputChange}
             required
           >
-            <option value="">Choose a tailor...</option>
+            <option value="">Choose  tailor...</option>
             {tailors.map((tailor) => (
               <option key={tailor._id} value={tailor._id}>
                 {tailor.name} - {tailor.specialization.join(', ')}
