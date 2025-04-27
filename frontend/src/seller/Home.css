@@ -1,0 +1,240 @@
+/* Import Dancing Script font */
+@import url('https://fonts.googleapis.com/css2?family=Dancing Script:wght@400;700&display=swap');
+
+/* General Styles */
+.home-page {
+  background: linear-gradient(to bottom, #4F032A, #D4AF37); /* Gradient from Deep Maroon to Gold */
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navbar Styles */
+.navbar {
+  background-color: #4F032A; /* Deep Maroon */
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.custom-logo {
+  font-family: 'Dancing Script', cursive;
+  font-size: 2.2rem;
+  color: #D4AF37 !important; /* Gold color for the logo */
+  position: relative;
+  text-decoration: none;
+}
+
+/* Decorative element (saree drape) below the logo */
+.custom-logo::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 50px;
+  height: 5px;
+  background: linear-gradient(to right, #D4AF37, transparent);
+  border-radius: 5px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #D4AF37; /* Gold on hover */
+}
+
+/* Hero Section Styles */
+.hero-section {
+  text-align: center;
+  padding: 100px 20px;
+  color: #fff; /* White text for contrast against gradient background */
+  flex: 1; /* Ensure hero section takes up remaining space before footer */
+}
+
+.hero-section h1 {
+  font-family: 'Dancing Script', cursive;
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+}
+
+.hero-section p {
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+}
+
+.cta-button {
+  background-color: #4F032A; /* Deep Maroon */
+  color: #fff;
+  padding: 12px 30px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+  background-color: #3A0220; /* Darker Maroon on hover */
+}
+
+/* Footer Styles */
+.footer {
+  background-color: #4F032A; /* Deep Maroon */
+  color: #fff;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  flex-wrap: wrap;
+  border-top: 2px solid #D4AF37; /* Gold border to separate footer from content */
+}
+
+.footer-column {
+  flex: 1;
+  min-width: 200px;
+  margin-bottom: 20px;
+}
+
+.footer-column h3 {
+  font-family: 'Dancing Script', cursive; /* Match the typography of the logo and headings */
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #D4AF37; /* Gold for headings */
+}
+
+.footer-column p {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #fff;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin-bottom: 10px;
+}
+
+.footer-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #D4AF37; /* Gold on hover */
+}
+
+.contact-info {
+  list-style: none;
+  padding: 0;
+}
+
+.contact-info li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.contact-icon {
+  color: #D4AF37; /* Gold for icons */
+  font-size: 1.2rem;
+}
+
+.contact-link {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.contact-link:hover {
+  color: #D4AF37; /* Gold on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .hero-section h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero-section p {
+    font-size: 1.2rem;
+  }
+
+  .cta-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+
+  .footer {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-column {
+    min-width: 100%;
+  }
+
+  .contact-info li {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .custom-logo {
+    font-size: 1.8rem;
+  }
+
+  .nav-link {
+    font-size: 0.9rem;
+  }
+
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+
+  .hero-section p {
+    font-size: 1rem;
+  }
+
+  .footer-column h3 {
+    font-size: 1.3rem;
+  }
+
+  .footer-column p,
+  .footer-link,
+  .contact-info li {
+    font-size: 0.9rem;
+  }
+}

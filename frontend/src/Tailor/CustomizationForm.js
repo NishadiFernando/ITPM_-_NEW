@@ -73,7 +73,7 @@ const CustomizationForm = () => {
       setMeasurements({});
     } catch (error) {
       console.error('Error submitting form:', error);
-      setError('Failed to submit customization request. Please try again.');
+      setError('Failed to submitt customization request. Please try again.');
     } finally {
       setLoading(false);
     }
