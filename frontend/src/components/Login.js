@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
+import { Form, Button, Container, Row, Col, Alert, Nav } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -7,10 +7,24 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (isAdmin) {
+      // Admin login check
+      if (email === 'tailor' && password === 'tailor123') {
+        localStorage.setItem('isAdmin', 'true');
+        navigate('/admin/dashboard');
+        return;
+      } else {
+        setError('Invalid admin credentials');
+        return;
+      }
+    }
+
     try {
       const response = await axios.post('http://localhost:5000/api/users/login', {
         email,
@@ -33,13 +47,42 @@ function Login() {
             <h2 style={{ color: '#4F032A' }}>Welcome to Punarvasthra</h2>
             <p>Please login to continue</p>
           </div>
+          
+          <div className="text-center mb-3">
+            <Button
+              variant={isAdmin ? "primary" : "outline-primary"}
+              onClick={() => setIsAdmin(true)}
+              className="mx-2"
+              style={{ 
+                backgroundColor: isAdmin ? '#4F032A' : 'white',
+                borderColor: '#4F032A',
+                color: isAdmin ? 'white' : '#4F032A'
+              }}
+            >
+              Admin Login
+            </Button>
+            <Button
+              variant={!isAdmin ? "primary" : "outline-primary"}
+              onClick={() => setIsAdmin(false)}
+              className="mx-2"
+              style={{ 
+                backgroundColor: !isAdmin ? '#4F032A' : 'white',
+                borderColor: '#4F032A',
+                color: !isAdmin ? 'white' : '#4F032A'
+              }}
+            >
+              User Login
+            </Button>
+          </div>
+
           {error && <Alert variant="danger">{error}</Alert>}
+          
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
-              <Form.Label>Email address</Form.Label>
+              <Form.Label>{isAdmin ? 'Username' : 'Email address'}</Form.Label>
               <Form.Control
-                type="email"
-                placeholder="Enter email"
+                type={isAdmin ? 'text' : 'email'}
+                placeholder={isAdmin ? 'Enter username' : 'Enter email'}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -69,9 +112,11 @@ function Login() {
               Login
             </Button>
 
-            <div className="text-center mt-3">
-              <p>Don't have an account? <Link to="/signup">Sign up</Link></p>
-            </div>
+            {!isAdmin && (
+              <div className="text-center mt-3">
+                <p>Don't have an account? <Link to="/signup">Sign up</Link></p>
+              </div>
+            )}
           </Form>
         </Col>
       </Row>
