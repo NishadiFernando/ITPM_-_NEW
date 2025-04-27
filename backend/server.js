@@ -4,6 +4,7 @@ const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
 require('dotenv').config(); // Added from new server.js
+const User = require('./models/user/user'); // Add this line
 
 // Import models
 const Saree = require('./models/Saree');
@@ -18,6 +19,7 @@ const dashboardRoutes = require('./routes/dashboard');
 const emailRoutes = require('./routes/email');
 const customizationRoutes = require('./routes/customization');
 const orderRoutes = require('./routes/orderRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 
@@ -75,6 +77,7 @@ app.use('/api/dashboard', dashboardRoutes);
 app.use('/api', emailRoutes);
 app.use('/api/customization', customizationRoutes);
 app.use('/api', orderRoutes);
+app.use('/api/users', require('./routes/userRoutes'));
 
 // Saree Routes
 app.get('/api/sarees', async (req, res) => {

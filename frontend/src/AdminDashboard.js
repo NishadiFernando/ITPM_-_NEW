@@ -27,6 +27,19 @@ ChartJS.register(
     Legend
 );
 
+const options = {
+    responsive: true,
+    plugins: {
+        legend: {
+            position: 'top',
+        },
+        title: {
+            display: true,
+            text: 'Dashboard Analytics',
+        },
+    },
+};
+
 // Order status configurations
 const ORDER_STATUSES = {
     PENDING: { value: 'Pending', color: '#ffc107' },
@@ -204,6 +217,18 @@ function AdminDashboard() {
         </div>
     );
 
+    const data = {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+        datasets: [
+            {
+                label: 'Orders',
+                data: [12, 19, 3, 5, 2, 3],
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }
+        ]
+    };
+
     return (
         <div className="admin-container">
             <div className="admin-sidebar">
@@ -265,6 +290,9 @@ function AdminDashboard() {
                                     <h3>{dashboardStats.todayOrders}</h3>
                                 </Card.Body>
                             </Card>
+                        </div>
+                        <div style={{ width: '80%', margin: '0 auto' }}>
+                            <Line options={options} data={data} />
                         </div>
                     </div>
                 )}
