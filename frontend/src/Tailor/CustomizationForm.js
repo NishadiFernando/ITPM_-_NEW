@@ -140,7 +140,7 @@ const CustomizationForm = () => {
                 onChange={handleInputChange}
                 required
               >
-                <option value="">Select Material</option>
+                <option value="">Selecct Material</option>
                 {materialOptions.map((material) => (
                   <option key={material} value={material}>
                     {material}
