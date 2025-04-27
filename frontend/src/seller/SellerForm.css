@@ -1,0 +1,627 @@
+/* Import Dancing Script font */
+@import url('https://fonts.googleapis.com/css2?family=Dancing Script:wght@400;700&display=swap');
+
+.seller-form-page {
+  background: linear-gradient(to bottom, #4F032A, #D4AF37);
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navbar Styles */
+.navbar {
+  background-color: #4F032A;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.custom-logo {
+  font-family: 'Dancing Script', cursive;
+  font-size: 2.2rem;
+  color: #D4AF37;
+  position: relative;
+  text-decoration: none;
+}
+
+.custom-logo::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 50px;
+  height: 5px;
+  background: linear-gradient(to right, #D4AF37, transparent);
+  border-radius: 5px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #D4AF37;
+}
+
+/* Seller Form Styles */
+.seller-form-section {
+  max-width: 800px;
+  margin: 40px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  flex: 1;
+}
+
+.seller-form-section h1 {
+  font-family: 'times new roman', cursive;
+  font-size: 2.8rem;
+  color: #4F032A;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-section {
+  margin-bottom: 20px;
+}
+
+.form-section h2 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #D4AF37;
+  padding-bottom: 5px;
+  display: inline-block;
+}
+
+.seller-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #333;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.form-group textarea {
+  height: 100px;
+  resize: none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #4F032A;
+  outline: none;
+}
+
+.form-group .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.error-message {
+  color: #d32f2f;
+  font-size: 0.9rem;
+  margin-top: 5px;
+  display: block;
+}
+
+.seller-form .submit-button {
+  background-color: #4F032A;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  align-self: center;
+}
+
+.seller-form .submit-button:hover {
+  background-color: #3A0220;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .seller-form-section {
+    margin: 20px;
+  }
+
+  .seller-form-section h1 {
+    font-size: 2.5rem;
+  }
+
+  .form-section h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .custom-logo {
+    font-size: 1.8rem;
+  }
+
+  .nav-link {
+    font-size: 0.9rem;
+  }
+
+  .seller-form-section h1 {
+    font-size: 2rem;
+  }
+
+  .form-section h2 {
+    font-size: 1.3rem;
+  }
+
+  .form-group label,
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 0.9rem;
+  }
+
+  .seller-form .submit-button {
+    font-size: 0.9rem;
+  }
+}
+
+.form-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+}
+
+.seller-form-wrapper {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.seller-form-section {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.seller-form-section h1 {
+  font-family: 'Times New Roman', serif;
+  font-size: 2rem;
+  color: #4F032A;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #4F032A;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(79, 3, 42, 0.1);
+}
+
+.seller-details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.image-upload {
+  grid-column: span 2;
+}
+
+.image-preview-container {
+  width: 100%;
+  height: 200px;
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+}
+
+.image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f8f8;
+}
+
+.image-placeholder span {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.file-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.image-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.datetime-group {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+input[type="date"],
+input[type="time"] {
+  appearance: none;
+  background-color: #fff;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.terms-box {
+  background-color: #f8f8f8;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.terms-box h3 {
+  color: #4F032A;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.terms-box ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.terms-box li {
+  margin-bottom: 0.5rem;
+  color: #444;
+  font-size: 0.95rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.terms-box li:before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #4F032A;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  color: #333;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #4F032A;
+  border-radius: 3px;
+}
+
+.submit-button {
+  background-color: #4F032A;
+  color: #fff;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 2rem;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #3a0220;
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .seller-details {
+    grid-template-columns: 1fr;
+  }
+
+  .image-upload {
+    grid-column: span 1;
+  }
+
+  .datetime-group {
+    grid-template-columns: 1fr;
+  }
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.seller-form-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #fff;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #4F032A;
+  padding: 2rem;
+  color: #D4AF37;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  height: 100vh;
+}
+
+.logo {
+  font-family: 'Times New Roman', serif;
+  font-size: 2rem;
+  margin-bottom: 3rem;
+  color: #D4AF37;
+}
+
+.nav-link {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  padding: 1rem 0;
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #D4AF37;
+}
+
+.logout-link {
+  margin-top: auto;
+  color: #fff;
+  text-decoration: none;
+  padding: 1rem 0;
+  font-size: 1.1rem;
+}
+
+.form-content {
+  flex: 1;
+  margin-left: 250px;
+  padding: 2rem;
+  background-color: #fff;
+}
+
+.form-content h1 {
+  font-family: 'Times New Roman', serif;
+  color: #4F032A;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.appointment-form {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.form-section {
+  background-color: #f5f5f5;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border-radius: 4px;
+}
+
+.form-section h2 {
+  color: #4F032A;
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.form-group input[type="text"],
+.form-group input[type="tel"],
+.form-group input[type="email"],
+.form-group input[type="date"],
+.form-group input[type="time"],
+.form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.form-group input[type="file"] {
+  width: 100%;
+  padding: 0.5rem 0;
+}
+
+.form-group select {
+  background-color: white;
+}
+
+.terms-box {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.terms-box ol {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.terms-box li {
+  margin-bottom: 0.5rem;
+  color: #444;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+}
+
+.error {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+.submit-button {
+  background-color: #4F032A;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 2rem;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #3a0220;
+}
+
+@media (max-width: 768px) {
+  .seller-form-container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    padding: 1rem;
+  }
+
+  .form-content {
+    margin-left: 0;
+    padding: 1rem;
+  }
+
+  .logo {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+}
