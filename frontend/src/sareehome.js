@@ -226,7 +226,7 @@ function CustomerPage() {
   const renderLandingPage = () => (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <div style={styles.landingPage}>
-        <h1 style={styles.title}>Welcome to Punarvasthra</h1>
+        <h1 style={styles.title}>Welcome  to Punarvasthra</h1>
         <p style={styles.subtitle}>
           Discover the elegance of traditional sarees reimagined for the modern era. 
           From vintage treasures to contemporary designs, explore our curated collection 
