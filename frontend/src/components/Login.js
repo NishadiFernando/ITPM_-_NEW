@@ -14,10 +14,14 @@ function Login() {
     e.preventDefault();
     
     if (isAdmin) {
-      // Admin login check
+      // Check for both admin types
       if (email === 'tailor' && password === 'tailor123') {
-        localStorage.setItem('isAdmin', 'true');
+        localStorage.setItem('isAdmin', 'tailor');
         navigate('/admin/dashboard');
+        return;
+      } else if (email === 'admin' && password === 'admin123') {
+        localStorage.setItem('isAdmin', 'admin');
+        navigate('/admin'); // This will open the Admin.js interface
         return;
       } else {
         setError('Invalid admin credentials');
@@ -25,6 +29,7 @@ function Login() {
       }
     }
 
+    // Regular user login
     try {
       const response = await axios.post('http://localhost:5000/api/users/login', {
         email,
