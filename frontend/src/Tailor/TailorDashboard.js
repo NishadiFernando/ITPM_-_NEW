@@ -89,6 +89,7 @@ function TailorDashboard() {
             )}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   return (
     <div style={styles.container}>
       <div style={styles.header}>
@@ -107,6 +108,8 @@ function TailorDashboard() {
             <option value="cancelled">Cancellled</option>
           </Form.Select>
 =======
+=======
+>>>>>>> 35315ce7ced6aea6bd438dfd404d75895dac5795
             <Modal show={showDetails} onHide={() => setShowDetails(false)} size="lg">
                 <Modal.Header closeButton>
                     <Modal.Title>Request Details #{selectedRequest?.requestId}</Modal.Title>
@@ -184,6 +187,9 @@ function TailorDashboard() {
                     </Button>
                 </Modal.Footer>
             </Modal>
+<<<<<<< HEAD
+>>>>>>> 35315ce7ced6aea6bd438dfd404d75895dac5795
+=======
 >>>>>>> 35315ce7ced6aea6bd438dfd404d75895dac5795
         </div>
     );
