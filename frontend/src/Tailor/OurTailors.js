@@ -74,7 +74,7 @@ const OurTailors = () => {
                     <span key={star} className="star">★</span>
                   ))}
                 </div>
-                <div className="specializations">
+                <div className="specializatio0ns">
                   {tailor.specialization.map((spec) => (
                     <span key={spec} className="specialization-tag">
                       {spec}
