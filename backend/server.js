@@ -23,8 +23,10 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:3000', // Keep from old server.js for specific origin
-  credentials: true
+  origin: ['http://localhost:3000', 'http://localhost:3002'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -77,10 +79,19 @@ app.use('/api', orderRoutes);
 // Saree Routes
 app.get('/api/sarees', async (req, res) => {
   try {
+    console.log('Received request for sarees from:', req.headers.origin);
+    
     const sarees = await Saree.find();
+    console.log(`Found ${sarees.length} sarees`);
+    
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
     res.json(sarees);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+  } catch (error) {
+    console.error('Error fetching sarees:', error);
+    res.status(500).json({
+      message: 'Failed to fetch sarees',
+      error: error.message
+    });
   }
 });
 

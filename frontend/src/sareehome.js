@@ -6,6 +6,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import CustomNavbar from './Navbar'; // Import the new Navbar component
 
+// Add error handling constants
+const API_BASE_URL = 'http://localhost:5000';
+const ERROR_MESSAGES = {
+  FETCH_ERROR: 'Failed to fetch sarees. Please try again later.',
+  NETWORK_ERROR: 'Network error. Please check your connection.',
+  SERVER_ERROR: 'Server error. Please try again later.'
+};
+
 function CustomerPage() {
   const [showWishlist, setShowWishlist] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
@@ -60,18 +68,43 @@ function CustomerPage() {
   }, []);
 
   useEffect(() => {
-    axios
-      .get('http://localhost:5000/api/sarees')
-      .then((res) => {
-        console.log('Fetched sarees:', res.data);
-        setSarees(res.data);
-        setFilteredSarees(res.data);
-      })
-      .catch((err) => {
-        setError('Failed to fetch sarees');
+    const fetchSarees = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        console.log('Fetching sarees...');
+        const response = await axios.get('http://localhost:5000/api/sarees', {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          }
+        });
+
+        if (response.data) {
+          console.log('Sarees fetched:', response.data);
+          setSarees(response.data);
+          setFilteredSarees(response.data);
+        }
+      } catch (err) {
         console.error('Error fetching sarees:', err);
-      })
-      .finally(() => setLoading(false));
+        if (err.response) {
+          // Server responded with an error
+          setError(`Server error: ${err.response.data.message}`);
+        } else if (err.request) {
+          // Request was made but no response received
+          setError('No response from server. Please check if the server is running.');
+        } else {
+          // Something happened in setting up the request
+          setError('Failed to fetch sarees. Please try again later.');
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSarees();
   }, []);
 
   useEffect(() => {
