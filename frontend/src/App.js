@@ -26,11 +26,21 @@ import Signup from './components/Signup';
 
 function App() {
   const isAuthenticated = () => {
-    return localStorage.getItem('token') !== null;
+    return localStorage.getItem('token') !== null || localStorage.getItem('isAdmin') === 'true';
   };
 
-  const PrivateRoute = ({ children }) => {
-    return isAuthenticated() ? children : <Navigate to="/login" />;
+  const isAdmin = () => {
+    return localStorage.getItem('isAdmin') === 'true';
+  };
+
+  const PrivateRoute = ({ children, adminOnly = false }) => {
+    if (!isAuthenticated()) {
+      return <Navigate to="/login" />;
+    }
+    if (adminOnly && !isAdmin()) {
+      return <Navigate to="/home" />;
+    }
+    return children;
   };
 
   return (
@@ -79,6 +89,14 @@ function App() {
 
         {/* Admin Dashboard route */}
         <Route path="/admin/orders" element={<AdminDashboard />} />
+        <Route 
+          path="/admin/dashboard" 
+          element={
+            <PrivateRoute adminOnly={true}>
+              <DashboardOverview />
+            </PrivateRoute>
+          } 
+        />
 
         {/* Add more routes as needed */}
       </Routes>
