@@ -26,18 +26,25 @@ import Signup from './components/Signup';
 
 function App() {
   const isAuthenticated = () => {
-    return localStorage.getItem('token') !== null || localStorage.getItem('isAdmin') === 'true';
+    return localStorage.getItem('token') !== null || localStorage.getItem('isAdmin') !== null;
   };
 
   const isAdmin = () => {
-    return localStorage.getItem('isAdmin') === 'true';
+    return localStorage.getItem('isAdmin') === 'admin';
   };
 
-  const PrivateRoute = ({ children, adminOnly = false }) => {
+  const isTailorAdmin = () => {
+    return localStorage.getItem('isAdmin') === 'tailor';
+  };
+
+  const PrivateRoute = ({ children, adminOnly = false, tailorOnly = false }) => {
     if (!isAuthenticated()) {
       return <Navigate to="/login" />;
     }
     if (adminOnly && !isAdmin()) {
+      return <Navigate to="/home" />;
+    }
+    if (tailorOnly && !isTailorAdmin()) {
       return <Navigate to="/home" />;
     }
     return children;
@@ -59,7 +66,14 @@ function App() {
         <Route path="/" element={<Navigate to="/login" />} />
 
         {/* Existing routes */}
-        <Route path="/admin" element={<Admin />} />
+        <Route 
+          path="/admin" 
+          element={
+            <PrivateRoute adminOnly={true}>
+              <Admin />
+            </PrivateRoute>
+          } 
+        />
         <Route path="/admin/add" element={<AddSaree />} />
         <Route path="/admin/edit" element={<AdminEdit />} />
         <Route path="/about" element={<AboutUs />} />
@@ -92,7 +106,7 @@ function App() {
         <Route 
           path="/admin/dashboard" 
           element={
-            <PrivateRoute adminOnly={true}>
+            <PrivateRoute tailorOnly={true}>
               <DashboardOverview />
             </PrivateRoute>
           } 
