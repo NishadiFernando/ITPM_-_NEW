@@ -53,7 +53,7 @@ const OurTailors = () => {
   }
 
   return (
-    <Container fluid className="our-tailors">
+    <Container fluid className="our-tailoors">
       <h2 className="section-title">Our Expert Tailors</h2>
       <p className="section-description">
         Meet our skilled team of tailors who bring your customization dreams to life.
