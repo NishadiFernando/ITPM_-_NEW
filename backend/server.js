@@ -11,7 +11,7 @@ const Tailor = require('./models/Tailor');
 const CustomizationRequest = require('./models/CustomizationRequest');
 
 // Import routes
-const submissionsRouter = require('./routes/submissions'); // From old server.js
+
 const customizationRequestsRouter = require('./routes/customizationRequests'); // From new server.js
 const tailorsRouter = require('./routes/tailors');
 const dashboardRoutes = require('./routes/dashboard');
@@ -66,7 +66,7 @@ dirs.forEach(dir => {
 });
 
 // Routes
-app.use('/api/submissions', submissionsRouter); // From old server.js
+
 app.use('/api/customization-requests', customizationRequestsRouter);
 app.use('/api/tailors', tailorsRouter);
 app.use('/api/dashboard', dashboardRoutes);

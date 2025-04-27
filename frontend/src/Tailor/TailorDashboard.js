@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Badge, Button, Spinner, Modal, Form, Row, Col, Card } from 'react-bootstrap';
+import { Table, Badge, Button, Spinner, Modal, Form, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import './TailorDashboard.css';
 
 function TailorDashboard() {
-    // State declarations
     const [requests, setRequests] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showDetails, setShowDetails] = useState(false);
     const [selectedRequest, setSelectedRequest] = useState(null);
     const [error, setError] = useState(null);
+    const [statusFilter, setStatusFilter] = useState('all');
 
-    // Fetch data on component mount
     useEffect(() => {
         fetchRequests();
     }, []);
 
-    // Fetch requests from API
     const fetchRequests = async () => {
         try {
             setLoading(true);
@@ -38,7 +36,23 @@ function TailorDashboard() {
 
     return (
         <div className="tailor-dashboard">
-            <h2>Tailor Dashboard</h2>
+            <div style={styles.header}>
+                <h1 style={styles.title}>My Assigned Requests</h1>
+                <div style={styles.filterContainer}>
+                    <span style={{ color: '#4F032A', fontWeight: 'bold' }}>Filter by Status:</span>
+                    <Form.Select
+                        value={statusFilter}
+                        onChange={(e) => setStatusFilter(e.target.value)}
+                        style={{ width: '200px' }}
+                    >
+                        <option value="all">All Requests</option>
+                        <option value="pending">Pending</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                    </Form.Select>
+                </div>
+            </div>
             
             {error && (
                 <div className="error-message">
@@ -88,28 +102,6 @@ function TailorDashboard() {
                 </Table>
             )}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-  return (
-    <div style={styles.container}>
-      <div style={styles.header}>
-        <h1 style={styles.title}>My Assigned Requests</h1>
-        <div style={styles.filterContainer}>
-          <span style={{ color: '#4F032A', fontWeight: 'bold' }}>Filter by Status:</span>
-          <Form.Select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            style={{ width: '200px' }}
-          >
-            <option value="all">All Requests</option>
-            <option value="pending">Pending</option>
-            <option value="in_progress">In Progress</option>
-            <option value="completed">Completed</option>
-            <option value="cancelled">Cancellled</option>
-          </Form.Select>
-=======
-=======
->>>>>>> 35315ce7ced6aea6bd438dfd404d75895dac5795
             <Modal show={showDetails} onHide={() => setShowDetails(false)} size="lg">
                 <Modal.Header closeButton>
                     <Modal.Title>Request Details #{selectedRequest?.requestId}</Modal.Title>
@@ -187,12 +179,26 @@ function TailorDashboard() {
                     </Button>
                 </Modal.Footer>
             </Modal>
-<<<<<<< HEAD
->>>>>>> 35315ce7ced6aea6bd438dfd404d75895dac5795
-=======
->>>>>>> 35315ce7ced6aea6bd438dfd404d75895dac5795
         </div>
     );
 }
+
+const styles = {
+    header: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: '2rem'
+    },
+    title: {
+        color: '#4F032A',
+        margin: 0
+    },
+    filterContainer: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: '1rem'
+    }
+};
 
 export default TailorDashboard;
