@@ -171,7 +171,7 @@ const CustomizationForm = () => {
             onChange={handleInputChange}
             required
           >
-            <option value="">Choose a tailor...</option>
+            <option value="">Choose  tailor...</option>
             {tailors.map((tailor) => (
               <option key={tailor._id} value={tailor._id}>
                 {tailor.name} - {tailor.specialization.join(', ')}
