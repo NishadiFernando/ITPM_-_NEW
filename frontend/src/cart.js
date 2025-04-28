@@ -10,55 +10,74 @@ function Cart() {
     const [totalPrice, setTotalPrice] = useState(0);
 
     useEffect(() => {
+        loadCartItems();
+    }, []);
+
+    const loadCartItems = () => {
         try {
-            // Get cart items from localStorage
-            const savedCart = JSON.parse(localStorage.getItem('cart') || '[]');
-            console.log('Loaded cart:', savedCart); // Debug log
-            if (Array.isArray(savedCart) && savedCart.length > 0) {
-                setCartItems(savedCart);
+            const savedCart = localStorage.getItem('cart');
+            if (savedCart) {
+                const parsedCart = JSON.parse(savedCart);
+                setCartItems(parsedCart);
+                calculateTotal(parsedCart);
             }
         } catch (error) {
             console.error('Error loading cart:', error);
         }
-    }, []);
+    };
 
-    useEffect(() => {
-        // Calculate total price whenever cart items change
-        const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const calculateTotal = (items) => {
+        const total = items.reduce((sum, item) => {
+            const price = parseFloat(item.price.replace('LKR ', ''));
+            return sum + (price * item.quantity);
+        }, 0);
         setTotalPrice(total);
-        // Save updated cart to localStorage
-        localStorage.setItem('cart', JSON.stringify(cartItems));
-    }, [cartItems]);
+    };
 
     const handleQuantityChange = (itemId, newQuantity) => {
         if (newQuantity > 0) {
-            setCartItems(cartItems.map(item => 
-                item._id === itemId ? { ...item, quantity: newQuantity } : item
-            ));
+            const updatedCart = cartItems.map(item =>
+                item.id === itemId ? { ...item, quantity: newQuantity } : item
+            );
+            setCartItems(updatedCart);
+            localStorage.setItem('cart', JSON.stringify(updatedCart));
+            calculateTotal(updatedCart);
         }
     };
 
     const handleRemoveItem = (itemId) => {
-        setCartItems(cartItems.filter(item => item._id !== itemId));
+        const updatedCart = cartItems.filter(item => item.id !== itemId);
+        setCartItems(updatedCart);
+        localStorage.setItem('cart', JSON.stringify(updatedCart));
+        calculateTotal(updatedCart);
     };
 
     const handleCheckout = () => {
-        console.log('Checkout clicked');
         if (cartItems.length > 0) {
-            console.log('Navigating to order form');
-            navigate('/order-form');
+            navigate('/order', { state: { cartItems, totalPrice } });
         } else {
-            console.log('Cart is empty');
             alert('Your cart is empty!');
         }
     };
 
     if (cartItems.length === 0) {
         return (
-            <Container className="mt-5">
-                <h2>Your cart is empty</h2>
-                <Button onClick={() => navigate('/')}>Continue Shopping</Button>
-            </Container>
+            <>
+                <CustomNavbar />
+                <Container className="mt-5 text-center">
+                    <h2>Your cart is empty</h2>
+                    <Button 
+                        onClick={() => navigate('/sareehome')}
+                        className="mt-3"
+                        style={{
+                            backgroundColor: '#4F032A',
+                            border: 'none'
+                        }}
+                    >
+                        Continue Shopping
+                    </Button>
+                </Container>
+            </>
         );
     }
 
@@ -70,16 +89,20 @@ function Cart() {
                 <Row>
                     <Col md={8}>
                         {cartItems.map(item => (
-                            <Card className="mb-4" key={item._id}>
+                            <Card className="mb-4" key={item.id}>
                                 <Card.Body>
                                     <Row>
                                         <Col md={4}>
                                             <img
                                                 src={`http://localhost:5000${item.image}`}
-                                                alt={item.title}
+                                                alt={item.name}
+                                                onError={(e) => {
+                                                    console.error('Image failed to load:', item.image);
+                                                    e.target.src = 'https://via.placeholder.com/300x400';
+                                                }}
                                                 style={{
                                                     width: '100%',
-                                                    height: 'auto',
+                                                    height: '200px',
                                                     objectFit: 'cover',
                                                     borderRadius: '8px'
                                                 }}
@@ -88,14 +111,13 @@ function Cart() {
                                         <Col md={8}>
                                             <div className="d-flex justify-content-between align-items-start">
                                                 <div>
-                                                    <h4>{item.title}</h4>
-                                                    <p className="text-muted">Color: {item.mainColor}</p>
-                                                    <p className="text-muted">Fabric: {item.fabric}</p>
+                                                    <h4>{item.name}</h4>
+                                                    <p className="text-muted">Color: {item.color}</p>
                                                 </div>
                                                 <Button 
                                                     variant="link" 
                                                     className="text-danger"
-                                                    onClick={() => handleRemoveItem(item._id)}
+                                                    onClick={() => handleRemoveItem(item.id)}
                                                 >
                                                     ✕
                                                 </Button>
@@ -105,12 +127,12 @@ function Cart() {
                                                 <Form.Control
                                                     type="number"
                                                     value={item.quantity}
-                                                    onChange={(e) => handleQuantityChange(item._id, parseInt(e.target.value))}
+                                                    onChange={(e) => handleQuantityChange(item.id, parseInt(e.target.value))}
                                                     min="1"
                                                     style={{ width: '80px' }}
                                                 />
                                             </div>
-                                            <h5 className="mt-3">Price: LKR {item.price * item.quantity}</h5>
+                                            <h5 className="mt-3">Price: {item.price}</h5>
                                         </Col>
                                     </Row>
                                 </Card.Body>
@@ -135,16 +157,19 @@ function Cart() {
                                     <strong>LKR {totalPrice}</strong>
                                 </div>
                                 <Button 
-                                    variant="primary" 
-                                    className="w-100"
                                     onClick={handleCheckout}
+                                    className="w-100"
+                                    style={{
+                                        backgroundColor: '#4F032A',
+                                        border: 'none'
+                                    }}
                                 >
                                     Proceed to Checkout
                                 </Button>
                                 <Button 
                                     variant="outline-secondary" 
                                     className="w-100 mt-2"
-                                    onClick={() => navigate('/')}
+                                    onClick={() => navigate('/sareehome')}
                                 >
                                     Continue Shopping
                                 </Button>

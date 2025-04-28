@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Button, Card, Modal } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import CustomNavbar from './Navbar';
 import axios from 'axios';
 
 function OrderForm() {
     const navigate = useNavigate();
+    const location = useLocation();
     const [cartItems, setCartItems] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
     const [paymentMethod, setPaymentMethod] = useState('cod');
@@ -33,14 +34,20 @@ function OrderForm() {
     // Load cart items and calculate total
     useEffect(() => {
         try {
-            const savedCart = JSON.parse(localStorage.getItem('cart') || '[]');
-            setCartItems(savedCart);
-            const total = savedCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            // Check if coming from Buy Now
+            if (location.state?.fromBuyNow) {
+                setCartItems([location.state.saree]);
+            } else {
+                // Load from cart
+                const savedCart = JSON.parse(localStorage.getItem('cart') || '[]');
+                setCartItems(savedCart);
+            }
+            const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             setTotalPrice(total);
         } catch (error) {
             console.error('Error loading cart:', error);
         }
-    }, []);
+    }, [location, cartItems]);
 
     const handleInputChange = (e) => {
         const { name, value, checked, type } = e.target;

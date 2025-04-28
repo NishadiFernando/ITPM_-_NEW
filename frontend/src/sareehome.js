@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { Container, Row, Col, Card, Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import CustomNavbar from './Navbar'; // Import the new Navbar component
 
 function CustomerPage() {
+  const navigate = useNavigate();
+
   // State declarations
   const [showMainContent, setShowMainContent] = useState(false);
   const [showWishlist, setShowWishlist] = useState(false);
@@ -133,11 +135,67 @@ function CustomerPage() {
   };
 
   const handleBuyNow = (saree) => {
-    alert(`Proceeding to buy: ${saree.title} (Quantity: ${quantity})`);
+    try {
+      // Create cart item from the saree
+      const cartItem = {
+        ...saree,
+        quantity: quantity
+      };
+
+      // Store in localStorage
+      const cart = [cartItem];
+      localStorage.setItem('cart', JSON.stringify(cart));
+
+      // Navigate to order form
+      navigate('/order', { 
+        state: { 
+          fromBuyNow: true,
+          saree: cartItem
+        }
+      });
+    } catch (error) {
+      console.error('Error handling buy now:', error);
+      alert('Failed to process purchase. Please try again.');
+    }
   };
 
   const handleAddToCart = (saree) => {
-    alert(`Added to cart: ${saree.title} (Quantity: ${quantity})`);
+    try {
+      // Format the image URL correctly
+      const imageUrl = saree.image.startsWith('http') 
+        ? saree.image 
+        : `http://localhost:5000${saree.image}`;
+
+      const cartItem = {
+        id: saree._id,
+        name: saree.title,
+        price: saree.price,
+        color: saree.mainColor,
+        image: saree.image, // Store the relative path only
+        quantity: 1
+      };
+
+      // Get existing cart items
+      const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
+      
+      // Check if item already exists in cart
+      const existingItemIndex = existingCart.findIndex(item => item.id === cartItem.id);
+
+      if (existingItemIndex !== -1) {
+        // Update quantity if item exists
+        existingCart[existingItemIndex].quantity += 1;
+      } else {
+        // Add new item if it doesn't exist
+        existingCart.push(cartItem);
+      }
+
+      // Save updated cart to localStorage
+      localStorage.setItem('cart', JSON.stringify(existingCart));
+      alert('Item added to cart!');
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      alert('Failed to add item to cart');
+    }
   };
 
   const handleAddToWishlist = (saree) => {
@@ -480,7 +538,6 @@ function CustomerPage() {
                             marginRight: '10px',
                             boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
                             opacity: selectedSaree.stockAvailability === 'Out of Stock' ? 0.6 : 1,
-                            animation: selectedSaree.stockAvailability === 'In Stock' ? 'shake 1.5s ease infinite' : 'none',
                           }}
                           onClick={() => handleBuyNow(selectedSaree)}
                         >
