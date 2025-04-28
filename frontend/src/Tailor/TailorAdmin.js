@@ -12,6 +12,14 @@ const TailorAdmin = () => {
   const [activeSection, setActiveSection] = useState('dashboard');
 
   useEffect(() => {
+    // Check if user is authorized
+    const isAdmin = localStorage.getItem('isAdmin');
+    if (isAdmin !== 'tailor') {
+      navigate('/login');
+      return;
+    }
+
+    // Set active section based on path
     const path = location.pathname.split('/').pop();
     if (path === 'management') {
       setActiveSection('tailor');
@@ -20,7 +28,7 @@ const TailorAdmin = () => {
     } else {
       setActiveSection('dashboard');
     }
-  }, [location]);
+  }, [location, navigate]);
 
   const handleNavigation = (section) => {
     setActiveSection(section);

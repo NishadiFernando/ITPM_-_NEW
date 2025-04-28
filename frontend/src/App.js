@@ -24,6 +24,7 @@ import CustomizationFormm from './Tailor/Customizationformm';
 import OurTailors from './Tailor/OurTailors';
 import CustomizationRequests from './Tailor/CustomizationRequests';
 import CustomizationForm from './Tailor/CustomizationForm';
+import TailorAdmin from './Tailor/TailorAdmin';
 
 // Auth components
 import Login from './components/Login';
@@ -53,6 +54,11 @@ function App() {
 
         {/* Tailor Routes */}
         <Route path="/customization-requests" element={<CustomizationRequests />} />
+
+        {/* Tailor Admin Routes */}
+        <Route path="/tailor-admin/*" element={<TailorAdmin />} />
+        <Route path="/tailor-admin/management" element={<TailorAdmin />} />
+        <Route path="/tailor-admin/requests" element={<TailorAdmin />} />
 
         {/* Admin Routes */}
         <Route path="/admin" element={<Admin />} />
