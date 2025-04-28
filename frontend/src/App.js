@@ -26,11 +26,18 @@ import Signup from './components/Signup';
 
 function App() {
   const isAuthenticated = () => {
-    return localStorage.getItem('isAdmin') !== null;
+    return localStorage.getItem('token') !== null || localStorage.getItem('isAdmin') !== null;
   };
 
-  const PrivateRoute = ({ children }) => {
-    return isAuthenticated() ? children : <Navigate to="/login" />;
+  const PrivateRoute = ({ children, adminType }) => {
+    const isAdmin = localStorage.getItem('isAdmin');
+    if (!isAuthenticated()) {
+      return <Navigate to="/login" />;
+    }
+    if (adminType && isAdmin !== adminType) {
+      return <Navigate to="/login" />;
+    }
+    return children;
   };
 
   return (
@@ -38,71 +45,36 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route 
-          path="/home" 
-          element={
-            <PrivateRoute>
-              <CustomerPage />
-            </PrivateRoute>
-          } 
-        />
-        <Route path="/" element={<Navigate to="/tailor-admin" />} />
-
-        {/* Existing routes */}
-        <Route 
-          path="/admin" 
-          element={
-            <PrivateRoute adminOnly={true}>
-              <Admin />
-            </PrivateRoute>
-          } 
-        />
-        <Route path="/admin/add" element={<AddSaree />} />
-        <Route path="/admin/edit" element={<AdminEdit />} />
-        <Route path="/about" element={<AboutUs />} />
-        <Route path="/flash-sale" element={<FlashSale />} />
-
-        {/* Tailor routes */}
-        <Route path="/customization" element={<TailorHome />} />
-        <Route path="/customize" element={<CustomizationPage />} />
-        <Route path="/website-saree" element={<SareeOptions />} />
-        <Route path="/own-saree" element={<SareeOptions />} />
-        <Route path="/customize/:type" element={<CustomizationFormm />} />
-        <Route path="/our-tailors" element={<OurTailors />} />
         
-        {/* Tailor Admin routes */}
-        <Route path="/tailor-admin" element={<TailorAdmin />}>
-          <Route index element={<DashboardOverview />} />
-          <Route path="dashboard" element={<DashboardOverview />} />
-          <Route path="management" element={<TailorManagement />} />
-          <Route path="requests" element={<CustomizationRequests />} />
-        </Route>
-        
-        {/* Individual Tailor Dashboard */}
-        <Route path="/tailor-dashboard" element={<TailorDashboard />} />
-        <Route path="/customization-requests" element={<CustomizationRequests />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/order-form" element={<OrderForm />} />
+        {/* Main Admin Route */}
+        <Route path="/admin/dashboard" element={
+          <PrivateRoute adminType="admin">
+            <AdminDashboard />
+          </PrivateRoute>
+        } />
 
-        {/* Admin Dashboard route */}
-        <Route path="/admin/orders" element={<AdminDashboard />} />
-        <Route 
-          path="/admin/dashboard" 
-          element={
-            <PrivateRoute tailorOnly={true}>
-              <DashboardOverview />
-            </PrivateRoute>
-          } 
-        />
+        {/* Manager Admin Route */}
+        <Route path="/admin" element={
+          <PrivateRoute adminType="manager">
+            <Admin />
+          </PrivateRoute>
+        } />
 
+        {/* Tailor Admin Route */}
         <Route path="/tailor-admin/*" element={
-          <PrivateRoute>
+          <PrivateRoute adminType="tailor">
             <TailorAdmin />
           </PrivateRoute>
         } />
-        <Route path="/admin/*" element={
-          <Navigate to="/tailor-admin" replace />
+
+        {/* Customer Route */}
+        <Route path="/sareehome" element={
+          <PrivateRoute>
+            <CustomerPage />
+          </PrivateRoute>
         } />
+
+        <Route path="/" element={<Navigate to="/login" />} />
       </Routes>
     </Router>
   );

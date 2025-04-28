@@ -1,32 +1,38 @@
 import React, { useState } from 'react';
-import { Form, Button, Container, Row, Col, Alert, Nav, Card } from 'react-bootstrap';
+import { Form, Button, Container, Row, Col, Alert, Card } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+    setError('');
+
     if (isAdmin) {
-      // Check for both admin types
-      if (email === 'tailor' && password === 'tailor123') {
-        localStorage.setItem('isAdmin', 'tailor');
-        navigate('/tailor-admin'); // Updated navigation path
-        return;
-      } else if (email === 'admin' && password === 'admin123') {
+      // Admin login checks
+      if (email === 'admin' && password === 'admin123') {
         localStorage.setItem('isAdmin', 'admin');
-        navigate('/admin'); // This will open the Admin.js interface
+        navigate('/admin/dashboard');
         return;
-      } else {
-        setError('Invalid admin credentials');
+      } 
+      else if (email === 'tailor' && password === 'tailor123') {
+        localStorage.setItem('isAdmin', 'tailor');
+        navigate('/tailor-admin');
         return;
       }
+      else if (email === 'nishadi' && password === 'nishadi123') {
+        localStorage.setItem('isAdmin', 'manager');
+        navigate('/admin');
+        return;
+      }
+      setError('Invalid admin credentials');
+      return;
     }
 
     // Regular user login
@@ -36,9 +42,11 @@ function Login() {
         password
       });
       
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-      navigate('/home');
+      if (response.data && response.data.token) {
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        navigate('/sareehome');
+      }
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed');
     }
