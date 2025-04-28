@@ -17,7 +17,7 @@ function Login() {
       // Check for both admin types
       if (email === 'tailor' && password === 'tailor123') {
         localStorage.setItem('isAdmin', 'tailor');
-        navigate('/admin/dashboard');
+        navigate('/tailor-admin'); // Updated navigation path
         return;
       } else if (email === 'admin' && password === 'admin123') {
         localStorage.setItem('isAdmin', 'admin');

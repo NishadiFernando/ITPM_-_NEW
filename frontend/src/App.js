@@ -26,28 +26,11 @@ import Signup from './components/Signup';
 
 function App() {
   const isAuthenticated = () => {
-    return localStorage.getItem('token') !== null || localStorage.getItem('isAdmin') !== null;
+    return localStorage.getItem('isAdmin') !== null;
   };
 
-  const isAdmin = () => {
-    return localStorage.getItem('isAdmin') === 'admin';
-  };
-
-  const isTailorAdmin = () => {
-    return localStorage.getItem('isAdmin') === 'tailor';
-  };
-
-  const PrivateRoute = ({ children, adminOnly = false, tailorOnly = false }) => {
-    if (!isAuthenticated()) {
-      return <Navigate to="/login" />;
-    }
-    if (adminOnly && !isAdmin()) {
-      return <Navigate to="/home" />;
-    }
-    if (tailorOnly && !isTailorAdmin()) {
-      return <Navigate to="/home" />;
-    }
-    return children;
+  const PrivateRoute = ({ children }) => {
+    return isAuthenticated() ? children : <Navigate to="/login" />;
   };
 
   return (
@@ -63,7 +46,7 @@ function App() {
             </PrivateRoute>
           } 
         />
-        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/" element={<Navigate to="/tailor-admin" />} />
 
         {/* Existing routes */}
         <Route 
@@ -112,7 +95,14 @@ function App() {
           } 
         />
 
-        {/* Add more routes as needed */}
+        <Route path="/tailor-admin/*" element={
+          <PrivateRoute>
+            <TailorAdmin />
+          </PrivateRoute>
+        } />
+        <Route path="/admin/*" element={
+          <Navigate to="/tailor-admin" replace />
+        } />
       </Routes>
     </Router>
   );
