@@ -1,121 +1,104 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import './TailorAdmin.css';
-import CustomizationRequests from './CustomizationRequests';
-import TailorManagement from './TailorManagement';
+import { useNavigate, useLocation } from 'react-router-dom';
 import DashboardOverview from './DashboardOverview';
+import TailorManagement from './TailorManagement';
+import CustomizationRequests from './CustomizationRequests';
+import './TailorAdmin.css';
 
 const TailorAdmin = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [activeSection, setActiveSection] = useState('dashboard');
 
-  const styles = {
-    sidebar: {
-      backgroundColor: '#4F032A',
-      minHeight: '100vh',
-      color: 'white',
-      padding: '20px 0',
-    },
-    sidebarBrand: {
-      fontSize: '24px',
-      fontWeight: 'bold',
-      padding: '0 20px 20px',
-      borderBottom: '1px solid rgba(255,255,255,0.1)',
-      marginBottom: '20px',
-    },
-    sidebarItem: {
-      padding: '15px 20px',
-      cursor: 'pointer',
-      display: 'flex',
-      alignItems: 'center',
-      gap: '10px',
-      transition: 'background-color 0.3s',
-    },
-    sidebarItemActive: {
-      backgroundColor: 'rgba(255,255,255,0.1)',
-      borderLeft: '4px solid #FF1493',
-    },
-    mainContent: {
-      backgroundColor: '#f5f5f5',
-      minHeight: '100vh',
-      padding: '20px',
-    },
-    logoutButton: {
-      marginTop: 'auto',
-      padding: '15px 20px',
-      color: 'white',
-      cursor: 'pointer',
-      display: 'flex',
-      alignItems: 'center',
-      gap: '10px',
-      transition: 'background-color 0.3s',
-      border: 'none',
-      backgroundColor: 'transparent',
-      width: '100%',
-      textAlign: 'left',
+  useEffect(() => {
+    const path = location.pathname.split('/').pop();
+    if (path === 'management') {
+      setActiveSection('tailor');
+    } else if (path === 'requests') {
+      setActiveSection('requests');
+    } else {
+      setActiveSection('dashboard');
+    }
+  }, [location]);
+
+  const handleNavigation = (section) => {
+    setActiveSection(section);
+    switch(section) {
+      case 'tailor':
+        navigate('/tailor-admin/management');
+        break;
+      case 'requests':
+        navigate('/tailor-admin/requests');
+        break;
+      default:
+        navigate('/tailor-admin');
     }
   };
 
-  const handleLogout = () => {
-    // Clear any stored data
-    localStorage.removeItem('tailorId');
-    localStorage.removeItem('tailorRole');
-    // Navigate to home page
-    navigate('/');
+  const renderContent = () => {
+    switch(activeSection) {
+      case 'tailor':
+        return <TailorManagement />;
+      case 'requests':
+        return <CustomizationRequests />;
+      case 'dashboard':
+      default:
+        return <DashboardOverview />;
+    }
   };
 
   return (
     <Container fluid>
       <Row>
-        {/* Sidebar */}
-        <Col md={2} style={styles.sidebar}>
-          <div style={styles.sidebarBrand}>Punarvastra</div>
+        <Col md={2} className="sidebar" style={{
+          backgroundColor: '#4F032A',
+          minHeight: '100vh',
+          color: 'white',
+          padding: '20px 0',
+          position: 'fixed',
+          width: '250px'
+        }}>
+          <div className="sidebar-brand">Punarvastra</div>
           
           <div 
-            style={{
-              ...styles.sidebarItem,
-              ...(activeSection === 'dashboard' ? styles.sidebarItemActive : {})
-            }}
-            onClick={() => setActiveSection('dashboard')}
+            className={`sidebar-item ${activeSection === 'dashboard' ? 'active' : ''}`}
+            onClick={() => handleNavigation('dashboard')}
           >
             <span>⬜</span> Dashboard Overview
           </div>
           
           <div 
-            style={{
-              ...styles.sidebarItem,
-              ...(activeSection === 'tailor' ? styles.sidebarItemActive : {})
-            }}
-            onClick={() => setActiveSection('tailor')}
+            className={`sidebar-item ${activeSection === 'tailor' ? 'active' : ''}`}
+            onClick={() => handleNavigation('tailor')}
           >
             <span>👥</span> Tailor Management
           </div>
-          
+
           <div 
-            style={{
-              ...styles.sidebarItem,
-              ...(activeSection === 'requests' ? styles.sidebarItemActive : {})
-            }}
-            onClick={() => setActiveSection('requests')}
+            className={`sidebar-item ${activeSection === 'requests' ? 'active' : ''}`}
+            onClick={() => handleNavigation('requests')}
           >
             <span>📋</span> Customization Requests
           </div>
-
-          <button style={styles.logoutButton} onClick={handleLogout}>
+          
+          <div 
+            className="logout-button"
+            onClick={() => {
+              localStorage.removeItem('isAdmin');
+              navigate('/login');
+            }}
+          >
             <span>🚪</span> Logout
-          </button>
+          </div>
         </Col>
 
-        {/* Main Content */}
-        <Col md={10} style={styles.mainContent}>
-          {activeSection === 'dashboard' && <DashboardOverview />}
-          {activeSection === 'tailor' && <TailorManagement />}
-          {activeSection === 'requests' && <CustomizationRequests />}
+        <Col md={10} className="main-content" style={{ marginLeft: '250px' }}>
+          {renderContent()}
         </Col>
       </Row>
     </Container>
   );
 };
 
-export default TailorAdmin; 
+export default TailorAdmin;
