@@ -14,6 +14,10 @@ const CustomNavbar = ({ onWishlistClick, onSearchClick }) => {
     navigate('/login');
   };
 
+  const handleSareeCollection = () => {
+    navigate('/sareehome');
+  };
+
   if (
     location.pathname === '/admin' ||
     location.pathname === '/admin/add' ||
@@ -31,13 +35,16 @@ const CustomNavbar = ({ onWishlistClick, onSearchClick }) => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link as={Link} to="/home" className="nav-link-custom">
+            <Nav.Link 
+              onClick={handleSareeCollection} 
+              className="nav-link-custom"
+            >
               Saree Collection
             </Nav.Link>
             <Nav.Link as={Link} to="/flash-sale" className="nav-link-custom">
               Flash Sale
             </Nav.Link>
-            <Nav.Link as={Link} to="/customization" className="nav-link-custom">
+            <Nav.Link as={Link} to="/tailor-home" className="nav-link-custom">
               Customization
             </Nav.Link>
             <Nav.Link href="#sell-your-saree" className="nav-link-custom">

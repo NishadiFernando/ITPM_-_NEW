@@ -2,78 +2,65 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+
+// Customer interfaces
 import CustomerPage from './sareehome';
+import Cart from './cart';
+import FlashSale from './FlashSale';
+import AboutUs from './AboutUs';
+import OrderForm from './OrderForm';
+
+// Admin interfaces
+import Admin from './Admin';
+import AdminDashboard from './AdminDashboard';
 import AddSaree from './add_saree';
 import AdminEdit from './admin_edit';
-import AboutUs from './AboutUs';
-import Admin from './Admin';
-import FlashSale from './FlashSale';
+
+// Tailor interfaces
 import TailorHome from './Tailor/TailorHome';
 import CustomizationPage from './Tailor/CustomizationPage';
 import SareeOptions from './Tailor/SareeOptions';
 import CustomizationFormm from './Tailor/Customizationformm';
 import OurTailors from './Tailor/OurTailors';
 import CustomizationRequests from './Tailor/CustomizationRequests';
-import TailorAdmin from './Tailor/TailorAdmin';
-import TailorDashboard from './Tailor/TailorDashboard';
-import DashboardOverview from './Tailor/DashboardOverview';
-import TailorManagement from './Tailor/TailorManagement';
-import Cart from './cart';
-import OrderForm from './OrderForm';
-import AdminDashboard from './AdminDashboard';
+import CustomizationForm from './Tailor/CustomizationForm';
+
+// Auth components
 import Login from './components/Login';
 import Signup from './components/Signup';
 
 function App() {
-  const isAuthenticated = () => {
-    return localStorage.getItem('token') !== null || localStorage.getItem('isAdmin') !== null;
-  };
-
-  const PrivateRoute = ({ children, adminType }) => {
-    const isAdmin = localStorage.getItem('isAdmin');
-    if (!isAuthenticated()) {
-      return <Navigate to="/login" />;
-    }
-    if (adminType && isAdmin !== adminType) {
-      return <Navigate to="/login" />;
-    }
-    return children;
-  };
-
   return (
     <Router>
       <Routes>
+        {/* Auth Routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        
-        {/* Main Admin Route */}
-        <Route path="/admin/dashboard" element={
-          <PrivateRoute adminType="admin">
-            <AdminDashboard />
-          </PrivateRoute>
-        } />
 
-        {/* Manager Admin Route */}
-        <Route path="/admin" element={
-          <PrivateRoute adminType="manager">
-            <Admin />
-          </PrivateRoute>
-        } />
+        {/* Customer Routes */}
+        <Route path="/sareehome" element={<CustomerPage />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/flash-sale" element={<FlashSale />} />
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/order" element={<OrderForm />} />
 
-        {/* Tailor Admin Route */}
-        <Route path="/tailor-admin/*" element={
-          <PrivateRoute adminType="tailor">
-            <TailorAdmin />
-          </PrivateRoute>
-        } />
+        {/* Tailor Flow Routes */}
+        <Route path="/tailor-home" element={<TailorHome />} />
+        <Route path="/customization" element={<CustomizationPage />} />
+        <Route path="/saree-options/:type" element={<SareeOptions />} />
+        <Route path="/customize/:type" element={<CustomizationFormm />} />
+        <Route path="/our-tailors" element={<OurTailors />} />
 
-        {/* Customer Route */}
-        <Route path="/sareehome" element={
-          <PrivateRoute>
-            <CustomerPage />
-          </PrivateRoute>
-        } />
+        {/* Tailor Routes */}
+        <Route path="/customization-requests" element={<CustomizationRequests />} />
 
+        {/* Admin Routes */}
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/admin/add" element={<AddSaree />} />
+        <Route path="/admin/edit" element={<AdminEdit />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+
+        {/* Default Route */}
         <Route path="/" element={<Navigate to="/login" />} />
       </Routes>
     </Router>
