@@ -1,12 +1,22 @@
+.tailor-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #FDF5F5 0%, #F8E6E6 100%);
+}
+
 .our-tailors {
   padding: 40px 20px;
   background-color: #FFF5F5;
   min-height: calc(100vh - 80px); /* Subtract navbar height */
 }
 
+.our-tailoors {
+  padding-top: 20px;
+}
+
 .section-title {
   text-align: center;
   color: #4F032A;
+  font-family: 'Playfair Display', serif;
   font-size: 2.5rem;
   font-weight: bold;
   margin-bottom: 1rem;
@@ -16,7 +26,8 @@
   text-align: center;
   color: #666;
   max-width: 800px;
-  margin: 0 auto 3rem;
+  margin: 0 auto 2rem;
+  font-family: 'Poppins', sans-serif;
   line-height: 1.6;
 }
 
@@ -165,4 +176,4 @@
     font-size: 0.8rem;
     padding: 4px 10px;
   }
-} 
+}
