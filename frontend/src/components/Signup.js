@@ -38,7 +38,7 @@ function Signup() {
 
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
-      navigate('/home');
+      navigate('/sareehome'); // Navigate to the correct homepage
     } catch (err) {
       setError(err.response?.data?.message || 'Signup failed');
     }
