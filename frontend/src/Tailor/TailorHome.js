@@ -1,10 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import CustomNavbar from '../Navbar'; // Adjust the path based on your folder structure
+import { Link, useNavigate } from 'react-router-dom';
+import CustomNavbar from '../Navbar';  // Updated import path
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css'; // Assuming styles are in App.css
 
 const TailorHome = () => {
+  const navigate = useNavigate();
+  
   const styles = {
     container: {
       position: 'relative',
@@ -61,23 +63,36 @@ const TailorHome = () => {
     },
   };
 
-  // Dummy handlers since TailorHome doesn't need wishlist or search functionality
   const handleWishlistClick = (e) => e.preventDefault();
   const handleSearchClick = (e) => e.preventDefault();
 
+  const handleCustomizeClick = () => {
+    navigate('/customization');
+  };
+
   return (
     <div style={styles.container}>
-      {/* Use the CustomNavbar component */}
-      <CustomNavbar onWishlistClick={handleWishlistClick} onSearchClick={handleSearchClick} />
+      <CustomNavbar 
+        onWishlistClick={handleWishlistClick} 
+        onSearchClick={handleSearchClick} 
+      />
       
       <div style={styles.backgroundImage}>
         <h1 style={styles.header}>Your Vision, Our Craft</h1>
-        <p style={styles.subheader}>Breathe New Life into Your Sarees - Custom Creations Just for You!</p>
+        <p style={styles.subheader}>
+          Breathe New Life into Your Sarees - Custom Creations Just for You!
+        </p>
         <div style={styles.buttonContainer}>
-          <Link to="/customize" style={{ ...styles.button, ...styles.primaryButton }}>
+          <button 
+            onClick={handleCustomizeClick}
+            style={{ ...styles.button, ...styles.primaryButton }}
+          >
             CUSTOMIZE NOW
-          </Link>
-          <Link to="/our-tailors" style={{ ...styles.button, ...styles.secondaryButton }}>
+          </button>
+          <Link 
+            to="/our-tailors" 
+            style={{ ...styles.button, ...styles.secondaryButton }}
+          >
             OUR TAILORS
           </Link>
         </div>

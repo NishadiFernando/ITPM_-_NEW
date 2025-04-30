@@ -79,43 +79,28 @@ const CustomizationPage = () => {
   return (
     <div style={styles.container}>
       <div style={styles.header}>
-        <Link to="/" style={styles.backButton}>
-          ←
-        </Link>
+        <Link to="/tailor-home" style={styles.backButton}>←</Link>
       </div>
       
-      <div style={styles.content}>
-        <h1 style={styles.title}>YOUR SAREE IS</h1>
-        <p style={styles.subtitle}>
-          Choose your preferred customization option to begin transforming your saree
-        </p>
-        
-        <div style={styles.optionsContainer}>
-          <Link 
-            to="/website-saree" 
-            style={{...styles.optionCard, ...styles.websiteSaree}}
-          >
-            <div style={styles.cardIcon}>🏪</div>
-            <h2 style={styles.cardTitle}>Our Website Saree</h2>
-            <p style={styles.cardDescription}>
-              Saree purchased from our website - (GET 20% OFF)
-            </p>
-          </Link>
+      <div style={styles.optionsContainer}>
+        <Link 
+          to="/saree-options/website" 
+          style={{...styles.optionCard, ...styles.websiteSaree}}
+        >
+          <h2>Our Website Saree</h2>
+          <p>Saree purchased from our website - (GET 20% OFF)</p>
+        </Link>
 
-          <Link 
-            to="/own-saree" 
-            style={{...styles.optionCard, ...styles.ownSaree}}
-          >
-            <div style={styles.cardIcon}>🏠</div>
-            <h2 style={styles.cardTitle}>Your Own Saree</h2>
-            <p style={styles.cardDescription}>
-              Upload and customize your personal saree
-            </p>
-          </Link>
-        </div>
+        <Link 
+          to="/saree-options/own" 
+          style={{...styles.optionCard, ...styles.ownSaree}}
+        >
+          <h2>Your Own Saree</h2>
+          <p>Upload and customize your personal saree</p>
+        </Link>
       </div>
     </div>
   );
 };
 
-export default CustomizationPage; 
+export default CustomizationPage;

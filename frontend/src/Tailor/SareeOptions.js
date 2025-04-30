@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 
 const SareeOptions = () => {
+  const { type } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const isWebsiteSaree = location.pathname === '/website-saree';
@@ -113,18 +114,17 @@ const SareeOptions = () => {
     }
   ];
 
+  const handleContinue = () => {
+    navigate(`/customize/${type}`);
+  };
+
   return (
     <div style={styles.container}>
       <div style={styles.header}>
-        <button 
-          onClick={() => navigate(-1)} 
-          style={styles.backButton}
-        >
-          ←
-        </button>
+        <Link to="/customization" style={styles.backButton}>← Back</Link>
       </div>
       
-      <h1 style={styles.title}>What would you like your saree to become?</h1>
+      <h1 style={styles.title}>{type === 'website' ? 'Website Saree' : 'Own Saree'} Options</h1>
       
       <div style={styles.optionsGrid}>
         {options.map((option, index) => (
@@ -151,8 +151,9 @@ const SareeOptions = () => {
           </Link>
         ))}
       </div>
+      <button onClick={handleContinue}>Continue to Customization</button>
     </div>
   );
 };
 
-export default SareeOptions; 
+export default SareeOptions;

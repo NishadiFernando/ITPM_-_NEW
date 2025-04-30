@@ -1,33 +1,29 @@
 .admin-dashboard {
     display: flex;
-    flex-direction: row;
     min-height: 100vh;
-    background: linear-gradient(135deg, #2a011a 0%, #4F032A 100%);
+    background: #f8f9fa;
     font-family: 'Poppins', sans-serif;
     position: relative;
 }
 
+/* Remove the backdrop filter that was causing issues */
 .admin-dashboard::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
+    content: none;
 }
 
 .sidebar {
-    width: 300px;
-    background: linear-gradient(135deg, rgba(79, 3, 42, 0.95) 0%, rgba(139, 46, 90, 0.95) 100%);
-    padding: 30px 20px;
+    width: 280px;
+    background: #4F032A;
     color: white;
-    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.15);
-    position: relative;
-    overflow: hidden;
-    animation: slideInLeft 0.5s ease-out;
-    backdrop-filter: blur(10px);
+    padding: 20px;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
 
 @keyframes slideInLeft {
@@ -55,9 +51,9 @@
 
 .sidebar-header {
     text-align: center;
-    padding-bottom: 30px;
-    margin-bottom: 30px;
-    border-bottom: 2px solid rgba(212, 175, 55, 0.2);
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 20px;
     position: relative;
 }
 
@@ -76,17 +72,13 @@
 
 .sidebar-header h2 {
     color: #D4AF37;
-    font-family: 'Dancing Script', cursive;
-    font-size: 2.4rem;
-    margin-bottom: 10px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: 24px;
+    margin-bottom: 5px;
 }
 
 .admin-subtitle {
-    color: #f0f0f0;
-    font-size: 0.9rem;
-    opacity: 0.8;
-    letter-spacing: 1px;
+    color: rgba(255,255,255,0.7);
+    font-size: 14px;
 }
 
 .sidebar-menu {
@@ -96,7 +88,7 @@
 }
 
 .sidebar-menu li {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     transition: transform 0.3s ease;
 }
 
@@ -106,32 +98,30 @@
 
 .sidebar-menu button {
     width: 100%;
-    padding: 15px 20px;
-    background-color: rgba(212, 175, 55, 0.1);
-    border: 1px solid rgba(212, 175, 55, 0.3);
-    color: white;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    font-size: 1rem;
     text-align: left;
+    padding: 12px 15px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
     display: flex;
     align-items: center;
+    gap: 10px;
     position: relative;
     overflow: hidden;
     backdrop-filter: blur(5px);
 }
 
 .sidebar-menu button:hover {
-    transform: translateX(10px);
-    background: rgba(212, 175, 55, 0.2);
-    box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.2);
+    background: rgba(255,255,255,0.1);
+    transform: translateX(5px);
 }
 
 .menu-icon {
-    font-size: 1.4rem;
-    margin-right: 15px;
-    width: 35px;
+    font-size: 20px;
+    width: 24px;
     height: 35px;
     display: flex;
     align-items: center;
@@ -160,11 +150,8 @@
 }
 
 .sidebar-menu li.active button {
-    background: linear-gradient(45deg, #D4AF37, #FFD700);
-    color: #4F032A;
-    border: none;
-    box-shadow: 4px 4px 15px rgba(212, 175, 55, 0.3);
-    transform: translateX(10px);
+    background: rgba(255,255,255,0.1);
+    color: #D4AF37;
 }
 
 .sidebar-menu li.active .menu-icon {
@@ -172,32 +159,17 @@
 }
 
 .back-to-site {
-    margin-top: 40px;
-    position: relative;
-}
-
-.back-to-site::before {
-    content: '';
-    position: absolute;
-    top: -20px;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent);
-}
-
-.back-to-site button {
-    background: rgba(212, 175, 55, 0.15);
-    border: 1px solid rgba(212, 175, 55, 0.2);
-}
-
-.back-to-site button:hover {
-    background: rgba(212, 175, 55, 0.3);
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
 }
 
 .main-content {
-    flex: 1;
-    padding: 0 40px;
+    margin-left: 280px;
+    padding: 30px;
+    width: calc(100% - 280px);
+    min-height: 100vh;
+    background: #f8f9fa;
     position: relative;
     z-index: 1;
     animation: fadeIn 0.5s ease-out;
@@ -228,8 +200,10 @@
 
 /* Dashboard Content Styles */
 .dashboard-content {
+    padding: 20px;
     position: relative;
-    z-index: 1;
+    z-index: 2;
+    background: transparent;
 }
 
 .dashboard-content h1 {
@@ -283,11 +257,12 @@
 
 .stats-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
-    margin-bottom: 40px;
-    margin-top: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
     animation: statsAppear 0.8s ease-out;
+    position: relative;
+    z-index: 3;
 }
 
 @keyframes statsAppear {
@@ -302,12 +277,13 @@
 }
 
 .stat-card {
-    background: rgba(255, 255, 255, 0.95);
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     display: flex;
     align-items: center;
+    gap: 20px;
     transition: all 0.3s ease;
     border: 1px solid rgba(212, 175, 55, 0.2);
     position: relative;
@@ -353,16 +329,15 @@
 }
 
 .stat-icon {
-    font-size: 2.8rem;
-    margin-right: 25px;
-    color: #4F032A;
-    background: rgba(79, 3, 42, 0.1);
-    width: 70px;
-    height: 70px;
+    font-size: 30px;
+    width: 60px;
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 12px;
+    background: #4F032A;
+    color: white;
+    border-radius: 50%;
     transition: all 0.3s ease;
     animation: iconPulse 2s infinite;
 }
@@ -374,18 +349,16 @@
 }
 
 .stat-info h3 {
+    margin: 0;
     color: #4F032A;
-    margin-bottom: 8px;
-    font-size: 1.2rem;
-    font-weight: 600;
+    font-size: 18px;
 }
 
 .stat-info p {
-    color: #D4AF37;
-    font-size: 1.8rem;
+    margin: 5px 0 0;
+    font-size: 24px;
     font-weight: bold;
-    margin: 0;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    color: #D4AF37;
 }
 
 /* Analytics Content Styles */
@@ -635,11 +608,11 @@
 }
 
 .alert-badge {
-    background: #ff4444;
+    background: #dc3545;
     color: white;
-    border-radius: 50%;
     padding: 2px 8px;
-    font-size: 0.8rem;
+    border-radius: 12px;
+    font-size: 12px;
     margin-left: 10px;
     animation: pulse 2s infinite;
 }
@@ -1014,4 +987,4 @@
     .fabric-table {
         page-break-inside: avoid;
     }
-} 
+}
