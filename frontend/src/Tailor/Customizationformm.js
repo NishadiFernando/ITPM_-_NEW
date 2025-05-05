@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import CustomNavbar from '../Navbar';
 
 const CustomizationForm = ({ isWebsiteSaree = false }) => {
   const navigate = useNavigate();
   const { type } = useParams();
   
+  const [step, setStep] = useState(1); // Add this for form steps
+  const [showSuccess, setShowSuccess] = useState(false); // Add a new state for success message
+
   // Measurement fields definition
   const measurementFields = {
     lehenga: [
@@ -133,9 +137,23 @@ const CustomizationForm = ({ isWebsiteSaree = false }) => {
 
   const styles = {
     container: {
-      maxWidth: '800px',
+      width: '100%', // Changed from maxWidth to width
       margin: '0 auto',
       padding: '40px 20px',
+      background: 'linear-gradient(135deg, #2C3E50 0%, #3498db 100%)',
+      minHeight: '100vh',
+    },
+    section: {
+      backgroundColor: '#f0f0f0', // Updated to light gray
+      padding: '30px',
+      borderRadius: '15px',
+      boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+      marginBottom: '30px',
+      width: '100%', // Added to ensure full width
+    },
+    formWrapper: {
+      maxWidth: '1000px', // Added to contain form width
+      margin: '0 auto',
     },
     header: {
       display: 'flex',
@@ -143,23 +161,29 @@ const CustomizationForm = ({ isWebsiteSaree = false }) => {
       marginBottom: '30px',
     },
     backButton: {
-      background: 'none',
-      border: 'none',
-      fontSize: '24px',
+      display: 'flex',
+      alignItems: 'center',
+      textDecoration: 'none',
+      color: '#ffffff',
+      fontSize: '16px',
+      padding: '12px 24px',
+      borderRadius: '8px',
+      backgroundColor: 'rgba(255, 255, 255, 0.2)',
+      border: '1px solid rgba(255, 255, 255, 0.3)',
+      transition: 'all 0.3s ease',
       cursor: 'pointer',
-      marginRight: '20px',
+    },
+    backButtonText: {
+      marginLeft: '8px',
+      fontWeight: '500',
     },
     title: {
-      fontSize: '2rem',
-      color: '#FF1493',
+      color: '#ffffff', // Changed to white
+      fontSize: '2.2rem',
       marginBottom: '30px',
-    },
-    section: {
-      backgroundColor: 'white',
-      padding: '30px',
-      borderRadius: '15px',
-      boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-      marginBottom: '30px',
+      fontFamily: "'Poppins', sans-serif",
+      fontWeight: '600',
+      marginLeft: '20px', // Added spacing between back button and title
     },
     sectionTitle: {
       fontSize: '1.5rem',
@@ -202,6 +226,37 @@ const CustomizationForm = ({ isWebsiteSaree = false }) => {
     },
     checkbox: {
       marginRight: '10px',
+    },
+    stepIndicator: {
+      display: 'flex',
+      justifyContent: 'center',
+      marginBottom: '30px',
+    },
+    step: {
+      width: '30px',
+      height: '30px',
+      borderRadius: '50%',
+      backgroundColor: '#ddd',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      margin: '0 10px',
+      color: '#333',
+    },
+    activeStep: {
+      backgroundColor: '#FF1493',
+      color: 'white',
+    },
+    nextButton: {
+      backgroundColor: '#1565C0',
+      color: 'white',
+      padding: '12px 30px',
+      border: 'none',
+      borderRadius: '5px',
+      fontSize: '18px',
+      cursor: 'pointer',
+      transition: 'background-color 0.3s',
+      marginTop: '20px',
     },
   };
 
@@ -246,10 +301,7 @@ const CustomizationForm = ({ isWebsiteSaree = false }) => {
       );
       
       if (response.status === 201) {
-        // Show success message
-        alert('Your customization request has been submitted successfully! You will receive an email with tailor details shortly.');
-        
-        // Reset form
+        setShowSuccess(true); // Show success interface instead of alert
         setFormData({
           name: '',
           email: '',
@@ -285,17 +337,6 @@ const CustomizationForm = ({ isWebsiteSaree = false }) => {
           bedLength: '',
           dropLength: '',
         });
-
-        // Reset file input
-        const fileInput = document.querySelector('input[type="file"]');
-        if (fileInput) {
-          fileInput.value = '';
-        }
-
-        // Redirect to home page after a short delay
-        setTimeout(() => {
-          window.location.href = '/';
-        }, 2000);
       }
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -319,6 +360,20 @@ const CustomizationForm = ({ isWebsiteSaree = false }) => {
   const handleTailorSelect = (e) => {
     const selectedTailorId = e.target.value;
     setFormData({ ...formData, tailor: selectedTailorId });
+  };
+
+  const handleNext = () => {
+    // Validate first step
+    if (!formData.name || !formData.email || !formData.phone || !formData.address 
+        || !formData.tailor || !formData.material || !formData.colorDescription) {
+      alert('Please fill all required fields');
+      return;
+    }
+    setStep(2);
+  };
+
+  const handleBack = () => {
+    setStep(1);
   };
 
   const renderCommonFields = () => (
@@ -514,42 +569,145 @@ const CustomizationForm = ({ isWebsiteSaree = false }) => {
     return titles[formType] || 'Item';
   };
 
-  return (
-    <div style={styles.container}>
-      <div style={styles.header}>
-        <button onClick={() => navigate(-1)} style={styles.backButton}>
-          ←
-        </button>
-        <h1 style={styles.title}>{getTitleByType()} Customization Form</h1>
-      </div>
-
-      <form onSubmit={handleSubmit}>
-        {renderCommonFields()}
-        {renderMeasurements()}
-
-        <div style={styles.formGroup}>
-          <label style={styles.checkbox}>
-            <input
-              type="checkbox"
-              checked={formData.termsAccepted}
-              onChange={(e) => setFormData({ ...formData, termsAccepted: e.target.checked })}
-              required
-            />
-            I agree to the customization policies and understand that alterations cannot be undone.
-          </label>
+  const SuccessMessage = () => (
+    <div style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.7)',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: 1000
+    }}>
+      <div style={{
+        backgroundColor: 'white',
+        padding: '40px',
+        borderRadius: '15px',
+        textAlign: 'center',
+        maxWidth: '500px',
+        width: '90%'
+      }}>
+        <div style={{ fontSize: '60px', marginBottom: '20px' }}>✅</div>
+        <h2 style={{ 
+          color: '#2C3E50',
+          marginBottom: '20px',
+          fontSize: '24px'
+        }}>
+          Customization Request Submitted Successfully!
+        </h2>
+        <p style={{
+          color: '#666',
+          marginBottom: '30px'
+        }}>
+          Our team will review your request and contact you shortly.
+        </p>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          gap: '15px'
+        }}>
+          <button
+            onClick={() => navigate('/sareehome')}
+            style={{
+              padding: '12px 24px',
+              backgroundColor: '#1565C0',
+              color: 'white',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              transition: 'background-color 0.3s'
+            }}
+            onMouseEnter={e => e.target.style.backgroundColor = '#0D47A1'}
+            onMouseLeave={e => e.target.style.backgroundColor = '#1565C0'}
+          >
+            Continue Shopping
+          </button>
         </div>
-
-        <button 
-          type="submit" 
-          style={styles.submitButton}
-          onMouseEnter={(e) => e.target.style.backgroundColor = '#FF1493DD'}
-          onMouseLeave={(e) => e.target.style.backgroundColor = '#FF1493'}
-        >
-          Submit
-        </button>
-      </form>
+      </div>
     </div>
+  );
+
+  return (
+    <>
+      <CustomNavbar />
+      <div style={styles.container}>
+        {showSuccess ? (
+          <SuccessMessage />
+        ) : (
+          <div style={styles.formWrapper}>
+            <div style={styles.header}>
+              <button 
+                onClick={() => navigate(-1)} 
+                style={styles.backButton}
+                onMouseEnter={e => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.3)'}
+                onMouseLeave={e => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.2)'}
+              >
+                <span>←</span>
+                <span style={styles.backButtonText}>Back</span>
+              </button>
+              <h1 style={styles.title}>{getTitleByType()} Customization Form</h1>
+            </div>
+
+            <div style={styles.stepIndicator}>
+              <div style={{...styles.step, ...(step === 1 ? styles.activeStep : {})}}>1</div>
+              <div style={{...styles.step, ...(step === 2 ? styles.activeStep : {})}}>2</div>
+            </div>
+
+            <form onSubmit={handleSubmit}>
+              {step === 1 ? (
+                <div>
+                  {renderCommonFields()}
+                  <button 
+                    type="button" 
+                    style={styles.nextButton}
+                    onClick={handleNext}
+                  >
+                    Next
+                  </button>
+                </div>
+              ) : (
+                <div>
+                  {renderMeasurements()}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                    <button 
+                      type="button" 
+                      style={{...styles.nextButton, backgroundColor: '#666'}}
+                      onClick={handleBack}
+                    >
+                      Back
+                    </button>
+                    <div style={styles.formGroup}>
+                      <label style={styles.checkbox}>
+                        <input
+                          type="checkbox"
+                          checked={formData.termsAccepted}
+                          onChange={(e) => setFormData({ ...formData, termsAccepted: e.target.checked })}
+                          required
+                        />
+                        I agree to the customization policies
+                      </label>
+                    </div>
+                    <button 
+                      type="submit" 
+                      style={styles.submitButton}
+                      onMouseEnter={(e) => e.target.style.backgroundColor = '#FF1493DD'}
+                      onMouseLeave={(e) => e.target.style.backgroundColor = '#FF1493'}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              )}
+            </form>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 
-export default CustomizationForm; 
+export default CustomizationForm;
