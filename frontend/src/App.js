@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import Footer from './components/Footer';
 
 // Customer interfaces
 import CustomerPage from './sareehome';
@@ -33,42 +34,45 @@ import Signup from './components/Signup';
 function App() {
   return (
     <Router>
-      <Routes>
-        {/* Auth Routes */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+      <div className="app-container">
+        <Routes>
+          {/* Auth Routes */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
 
-        {/* Customer Routes */}
-        <Route path="/sareehome" element={<CustomerPage />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/flash-sale" element={<FlashSale />} />
-        <Route path="/about" element={<AboutUs />} />
-        <Route path="/order" element={<OrderForm />} />
+          {/* Customer Routes */}
+          <Route path="/sareehome" element={<CustomerPage />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/flash-sale" element={<FlashSale />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/order" element={<OrderForm />} />
 
-        {/* Tailor Flow Routes */}
-        <Route path="/tailor-home" element={<TailorHome />} />
-        <Route path="/customization" element={<CustomizationPage />} />
-        <Route path="/saree-options/:type" element={<SareeOptions />} />
-        <Route path="/customize/:type" element={<CustomizationFormm />} />
-        <Route path="/our-tailors" element={<OurTailors />} />
+          {/* Tailor Flow Routes */}
+          <Route path="/tailor-home" element={<TailorHome />} />
+          <Route path="/customization" element={<CustomizationPage />} />
+          <Route path="/saree-options/:type" element={<SareeOptions />} />
+          <Route path="/customize/:type" element={<CustomizationFormm />} />
+          <Route path="/our-tailors" element={<OurTailors />} />
 
-        {/* Tailor Routes */}
-        <Route path="/customization-requests" element={<CustomizationRequests />} />
+          {/* Tailor Routes */}
+          <Route path="/customization-requests" element={<CustomizationRequests />} />
 
-        {/* Tailor Admin Routes */}
-        <Route path="/tailor-admin/*" element={<TailorAdmin />} />
-        <Route path="/tailor-admin/management" element={<TailorAdmin />} />
-        <Route path="/tailor-admin/requests" element={<TailorAdmin />} />
+          {/* Tailor Admin Routes */}
+          <Route path="/tailor-admin/*" element={<TailorAdmin />} />
+          <Route path="/tailor-admin/management" element={<TailorAdmin />} />
+          <Route path="/tailor-admin/requests" element={<TailorAdmin />} />
 
-        {/* Admin Routes */}
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/admin/add" element={<AddSaree />} />
-        <Route path="/admin/edit" element={<AdminEdit />} />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          {/* Admin Routes */}
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/add" element={<AddSaree />} />
+          <Route path="/admin/edit" element={<AdminEdit />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
 
-        {/* Default Route */}
-        <Route path="/" element={<Navigate to="/login" />} />
-      </Routes>
+          {/* Default Route */}
+          <Route path="/" element={<Navigate to="/login" />} />
+        </Routes>
+        <Footer />
+      </div>
     </Router>
   );
 }

@@ -41,6 +41,15 @@ body::before {
     position: relative;
 }
 
+main {
+    flex: 1 0 auto;
+}
+
+/* Exclude footer from login and signup pages */
+.auth-page footer {
+    display: none;
+}
+
 .App {
     font-family: 'Poppins', sans-serif;
     background-color: #f9f5f6; /* Soft pink background for the entire page */

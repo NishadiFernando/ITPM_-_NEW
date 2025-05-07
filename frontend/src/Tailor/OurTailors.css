@@ -1,16 +1,17 @@
 .tailor-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #FDF5F5 0%, #F8E6E6 100%);
+  background: linear-gradient(135deg, #f0f0f0 0%, #e6e6e6 100%);
 }
 
 .our-tailors {
   padding: 40px 20px;
-  background-color: #FFF5F5;
+  background-color: transparent;
   min-height: calc(100vh - 80px); /* Subtract navbar height */
 }
 
 .our-tailoors {
   padding-top: 20px;
+  background-color: transparent;
 }
 
 .section-title {
@@ -20,6 +21,7 @@
   font-size: 2.5rem;
   font-weight: bold;
   margin-bottom: 1rem;
+  animation: pulse 2s ease-in-out infinite;
 }
 
 .section-description {
@@ -32,7 +34,7 @@
 }
 
 .tailor-card {
-  background: white;
+  background: rgba(255, 255, 255, 0.95);
   border: none;
   border-radius: 15px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -40,11 +42,18 @@
   overflow: hidden;
   margin-bottom: 20px;
   height: 100%;
+  animation: fadeIn 0.6s ease-out forwards;
+  opacity: 0;
 }
 
 .tailor-card:hover {
   transform: translateY(-5px);
 }
+
+.tailor-card:nth-child(1) { animation-delay: 0.1s; }
+.tailor-card:nth-child(2) { animation-delay: 0.2s; }
+.tailor-card:nth-child(3) { animation-delay: 0.3s; }
+.tailor-card:nth-child(4) { animation-delay: 0.4s; }
 
 .tailor-image-container {
   width: 150px;
@@ -54,6 +63,12 @@
   overflow: hidden;
   border: 3px solid #4F032A;
   position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tailor-image-container:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(79, 3, 42, 0.2);
 }
 
 .tailor-profile-image {
@@ -89,6 +104,11 @@
   color: #FFD700;
   font-size: 1.2rem;
   margin: 0 2px;
+  transition: transform 0.2s ease;
+}
+
+.star:hover {
+  transform: scale(1.2);
 }
 
 .specializations {
@@ -106,6 +126,13 @@
   padding: 5px 12px;
   border-radius: 15px;
   font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.specialization-tag:hover {
+  background-color: #4F032A;
+  color: white;
+  transform: scale(1.1);
 }
 
 .tailor-info {
@@ -127,7 +154,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #FFF5F5;
+  background-color: transparent;
 }
 
 .spinner {
@@ -136,13 +163,30 @@
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  animation: spin 1s linear infinite;
+  animation: spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   margin-bottom: 20px;
 }
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
 }
 
 .error-message {
@@ -154,7 +198,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #FFF5F5;
+  background-color: transparent;
 }
 
 /* Responsive Design */
