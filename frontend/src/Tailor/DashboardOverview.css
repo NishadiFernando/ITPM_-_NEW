@@ -4,6 +4,9 @@
 }
 
 .dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 2rem;
 }
 
@@ -34,7 +37,7 @@
 }
 
 .refresh-button {
-  background: #2a2a72;
+  background: #4F032A;
   border: none;
   color: white;
   width: 45px;
@@ -45,21 +48,20 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .refresh-button:hover {
-  background: #3f3fb5;
-  transform: scale(1.1);
+  background: #6F0436;
+  transform: rotate(180deg);
 }
 
-.spinning {
+.refresh-button.spinning {
   animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .quick-stats {
@@ -750,4 +752,70 @@
 
 .text-muted {
   color: #666;
+}
+
+/* Add these new styles to your existing CSS file */
+
+.dashboard-charts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.chart-container {
+  background: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  height: 400px;
+}
+
+.chart-container h3 {
+  color: #4F032A;
+  margin-bottom: 1.5rem;
+  font-size: 1.2rem;
+}
+
+/* Responsive design for charts */
+@media (max-width: 992px) {
+  .dashboard-charts {
+    grid-template-columns: 1fr;
+  }
+  
+  .chart-container {
+    height: 300px;
+  }
+}
+
+/* Add these new styles */
+
+.chart-section {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin: 2rem 0;
+}
+
+.pie-chart-container {
+  height: 400px;
+  position: relative;
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+.loading-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #4F032A;
+  font-family: 'Poppins', sans-serif;
+}
+
+@media (max-width: 768px) {
+  .pie-chart-container {
+    height: 300px;
+  }
 }
