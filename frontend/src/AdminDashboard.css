@@ -228,3 +228,114 @@
     background-color: rgba(220, 53, 69, 0.1);
     color: #dc3545; /* Set a default color value for out-of-stock */
 }
+
+/* Export Button */
+.export-btn {
+    background-color: #4F032A;
+    border-color: #4F032A;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.export-btn:hover {
+    background-color: #3a0220;
+    border-color: #3a0220;
+    transform: translateY(-2px);
+}
+
+.export-btn i {
+    font-size: 1rem;
+}
+
+/* Orders Section */
+.orders-section {
+    padding: 20px;
+}
+
+.order-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.search-input {
+    max-width: 300px;
+    margin-bottom: 1rem;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.action-buttons button {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-buttons button:hover {
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+}
+
+.status-badge {
+    padding: 0.5em 1em;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.table-container {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.orders-table th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.orders-table td {
+    vertical-align: middle;
+}
+
+/* Status Modal */
+.status-modal .modal-content {
+    border-radius: 8px;
+}
+
+.status-modal .modal-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.status-modal .form-select {
+    border-color: #ced4da;
+}
+
+.status-modal .form-select:focus {
+    border-color: #4F032A;
+    box-shadow: 0 0 0 0.2rem rgba(79, 3, 42, 0.25);
+}
+
+.status-modal .btn-primary {
+    background-color: #4F032A;
+    border-color: #4F032A;
+}
+
+.status-modal .btn-primary:hover:not(:disabled) {
+    background-color: #3a0220;
+    border-color: #3a0220;
+}
+
+.status-modal .btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+}
