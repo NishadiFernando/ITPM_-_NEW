@@ -13,6 +13,9 @@ import {
     Legend
 } from 'chart.js';
 import axios from 'axios';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { format } from 'date-fns';
 import './AdminDashboard.css';
 
 // Register ChartJS components
@@ -114,15 +117,39 @@ function AdminDashboard() {
         }
     };
 
+    // Update the handleUpdateStatus function
     const handleUpdateStatus = async (orderId, newStatus) => {
+        if (!orderId || !newStatus) {
+            alert('Invalid order or status');
+            return;
+        }
+
         try {
-            await axios.patch(`http://localhost:5000/api/orders/${orderId}`, {
+            setLoading(true);
+            const response = await axios.put(`http://localhost:5000/api/orders/${orderId}/status`, {
                 status: newStatus
             });
-            fetchOrders();
-            setShowEditModal(false);
-        } catch (err) {
-            console.error('Failed to update status:', err);
+
+            if (response.data) {
+                // Update local state
+                setOrders(prevOrders => 
+                    prevOrders.map(order => 
+                        order._id === orderId ? { ...order, status: newStatus } : order
+                    )
+                );
+                
+                // Refresh dashboard stats
+                calculateDashboardStats();
+                
+                // Close modal and show success
+                setShowEditModal(false);
+                alert('Order status updated successfully!');
+            }
+        } catch (error) {
+            console.error('Update failed:', error);
+            alert(error.response?.data?.message || 'Failed to update order status');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -160,6 +187,110 @@ function AdminDashboard() {
     const handleCloseDetails = () => {
         setSelectedOrder(null);
         setShowOrderDetails(false);
+    };
+
+    const generatePDFReport = () => {
+        const doc = new jsPDF();
+        
+        // Add logo and title
+        doc.setFontSize(24);
+        doc.setTextColor(79, 3, 42); // #4F032A
+        doc.text('Punarvasthra', 105, 20, { align: 'center' });
+        
+        // Add subtitle
+        doc.setFontSize(16);
+        doc.setTextColor(102, 102, 102);
+        doc.text('Daily Orders Report', 105, 30, { align: 'center' });
+        
+        // Add date
+        doc.setFontSize(12);
+        doc.text(`Generated on: ${format(new Date(), 'dd/MM/yyyy HH:mm')}`, 105, 40, { align: 'center' });
+
+        // Add decorative line
+        doc.setDrawColor(79, 3, 42);
+        doc.setLineWidth(0.5);
+        doc.line(20, 45, 190, 45);
+
+        // Add statistics in a styled table
+        const stats = [
+            ['Total Orders:', dashboardStats.totalOrders],
+            ['Today\'s Orders:', dashboardStats.todayOrders],
+            ['Total Revenue:', `LKR ${dashboardStats.totalRevenue.toFixed(2)}`],
+            ['Pending Orders:', dashboardStats.pendingOrders]
+        ];
+
+        doc.autoTable({
+            startY: 55,
+            head: [['Statistics', 'Value']],
+            body: stats,
+            theme: 'grid',
+            headStyles: { 
+                fillColor: [79, 3, 42],
+                fontSize: 12,
+                halign: 'center'
+            },
+            styles: { 
+                cellPadding: 5,
+                fontSize: 10,
+                halign: 'left'
+            },
+            alternateRowStyles: {
+                fillColor: [245, 245, 245]
+            }
+        });
+
+        // Add orders table with improved styling
+        const orderData = filteredOrders.map(order => [
+            order.orderNumber,
+            format(new Date(order.createdAt), 'dd/MM/yyyy'),
+            `${order.customer.firstName} ${order.customer.lastName}`,
+            `LKR ${order.totalAmount.toFixed(2)}`,
+            order.status
+        ]);
+
+        doc.autoTable({
+            startY: doc.lastAutoTable.finalY + 15,
+            head: [['Order #', 'Date', 'Customer', 'Total', 'Status']],
+            body: orderData,
+            theme: 'grid',
+            headStyles: {
+                fillColor: [79, 3, 42],
+                fontSize: 11,
+                halign: 'center'
+            },
+            styles: {
+                cellPadding: 5,
+                fontSize: 10,
+                halign: 'left'
+            },
+            columnStyles: {
+                0: { cellWidth: 30 },
+                1: { cellWidth: 30 },
+                2: { cellWidth: 50 },
+                3: { cellWidth: 40 },
+                4: { cellWidth: 30 }
+            },
+            alternateRowStyles: {
+                fillColor: [245, 245, 245]
+            }
+        });
+
+        // Add footer
+        const pageCount = doc.internal.getNumberOfPages();
+        for (let i = 1; i <= pageCount; i++) {
+            doc.setPage(i);
+            doc.setFontSize(10);
+            doc.setTextColor(150);
+            doc.text(
+                `Page ${i} of ${pageCount}`,
+                doc.internal.pageSize.width / 2,
+                doc.internal.pageSize.height - 10,
+                { align: 'center' }
+            );
+        }
+
+        // Save the PDF
+        doc.save(`punarvasthra-orders-report-${format(new Date(), 'dd-MM-yyyy')}.pdf`);
     };
 
     const renderReports = () => (
@@ -252,7 +383,10 @@ function AdminDashboard() {
             <div className="admin-main">
                 {activeMenu === 'dashboard' && (
                     <div className="dashboard-overview">
-                        <h4 className="section-title">Dashboard Overview</h4>
+                        <div className="d-flex justify-content-between align-items-center mb-4">
+                            <h4 className="section-title">Dashboard Overview</h4>
+                        </div>
+                        
                         <div className="stats-grid">
                             <Card className="stat-card">
                                 <Card.Body>
@@ -297,94 +431,99 @@ function AdminDashboard() {
                     </div>
                 )}
                 {activeMenu === 'orders' && (
-                    <>
-                        <div className="admin-header">
-                            <h2>Order Management</h2>
-                            <div className="search-bar">
-                                <i className="fas fa-search search-icon"></i>
-                                <input
+                    <div className="orders-section">
+                        <div className="d-flex justify-content-between align-items-center mb-4">
+                            <h4 className="section-title">Orders Management</h4>
+                            <div className="order-actions">
+                                <Button 
+                                    variant="primary" 
+                                    onClick={generatePDFReport}
+                                    className="export-btn me-2"
+                                >
+                                    <i className="fa-solid fa-file-pdf me-2"></i>
+                                    Download Report
+                                </Button>
+                            </div>
+                        </div>
+                        <div className="table-container">
+                            <div className="mb-3">
+                                <Form.Control
                                     type="text"
-                                    placeholder="Search by Order ID or Customer Name..."
+                                    placeholder="Search orders..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                     className="search-input"
                                 />
-                                {searchTerm && (
-                                    <button
-                                        className="clear-search"
-                                        onClick={() => setSearchTerm('')}
-                                    >
-                                        <i className="fas fa-times"></i>
-                                    </button>
-                                )}
                             </div>
+                            <Table hover className="orders-table">
+                                <thead>
+                                    <tr>
+                                        <th>Order #</th>
+                                        <th>Date</th>
+                                        <th>Customer</th>
+                                        <th>Total</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {filteredOrders.map(order => (
+                                        <tr key={order._id}>
+                                            <td>{order.orderNumber}</td>
+                                            <td>{formatDate(order.createdAt)}</td>
+                                            <td>{`${order.customer.firstName} ${order.customer.lastName}`}</td>
+                                            <td>LKR {order.totalAmount}</td>
+                                            <td>
+                                                <Badge
+                                                    className={`status-badge ${order.status.toLowerCase()}`}
+                                                    style={{
+                                                        backgroundColor: ORDER_STATUSES[order.status.toUpperCase()]?.color
+                                                    }}
+                                                >
+                                                    {order.status}
+                                                </Badge>
+                                            </td>
+                                            <td>
+                                                <div className="action-buttons">
+                                                    <Button
+                                                        variant="outline-primary"
+                                                        size="sm"
+                                                        onClick={() => handleViewOrder(order)}
+                                                        className="action-btn me-2"
+                                                        title="View Order"
+                                                    >
+                                                        <i className="fa-solid fa-eye"></i>
+                                                    </Button>
+                                                    <Button
+                                                        variant="outline-warning"
+                                                        size="sm"
+                                                        onClick={() => {
+                                                            setEditedStatus(order.status);
+                                                            setSelectedOrder(order);
+                                                            setShowEditModal(true);
+                                                        }}
+                                                        className="action-btn me-2"
+                                                        title="Edit Order"
+                                                    >
+                                                        <i className="fa-solid fa-pen-to-square"></i>
+                                                    </Button>
+                                                    <Button
+                                                        variant="outline-danger"
+                                                        size="sm"
+                                                        onClick={() => handleDeleteOrder(order._id)}
+                                                        className="action-btn"
+                                                        title="Delete Order"
+                                                    >
+                                                        <i className="fa-solid fa-trash-can"></i>
+                                                    </Button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </Table>
                         </div>
-
-                        <div className="content-container">
-                            <div className="orders-section">
-                                <div className="table-container">
-                                    <Table hover className="orders-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Order #</th>
-                                                <th>Date</th>
-                                                <th>Customer</th>
-                                                <th>Total</th>
-                                                <th>Status</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {filteredOrders.map((order) => (
-                                                <tr key={order._id}>
-                                                    <td>{order.orderNumber}</td>
-                                                    <td>{formatDate(order.createdAt)}</td>
-                                                    <td>{order.customer.firstName} {order.customer.lastName}</td>
-                                                    <td>LKR {order.totalAmount}</td>
-                                                    <td>
-                                                        <Badge
-                                                            className={`status-badge ${order.status.toLowerCase()}`}
-                                                            onClick={() => {
-                                                                setEditedStatus(order.status);
-                                                                setSelectedOrder(order);
-                                                                setShowEditModal(true);
-                                                            }}
-                                                            style={{
-                                                                backgroundColor: ORDER_STATUSES[order.status.toUpperCase()]?.color,
-                                                                cursor: 'pointer'
-                                                            }}
-                                                        >
-                                                            {order.status}
-                                                        </Badge>
-                                                    </td>
-                                                    <td>
-                                                        <div className="action-buttons">
-                                                            <Button
-                                                                variant="outline-primary"
-                                                                size="sm"
-                                                                onClick={() => handleViewOrder(order)}
-                                                                className="action-btn view-btn"
-                                                            >
-                                                                <i className="fas fa-eye me-1"></i> View
-                                                            </Button>
-                                                            <Button
-                                                                variant="outline-danger"
-                                                                size="sm"
-                                                                onClick={() => handleDeleteOrder(order._id)}
-                                                                className="action-btn delete-btn"
-                                                            >
-                                                                <i className="fas fa-trash me-1"></i> Delete
-                                                            </Button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </Table>
-                                </div>
-                            </div>
-                        </div>
-                    </>
+                    </div>
                 )}
                 {activeMenu === 'reports' && renderReports()}
             </div>
@@ -395,45 +534,58 @@ function AdminDashboard() {
                     <Modal.Title>Update Order Status</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form>
-                        <Form.Group>
-                            <Form.Label>Current Status: </Form.Label>
-                            <Badge
-                                className={`status-badge ${selectedOrder?.status.toLowerCase()}`}
-                                style={{
-                                    backgroundColor: ORDER_STATUSES[selectedOrder?.status?.toUpperCase()]?.color,
-                                    marginLeft: '10px'
-                                }}
-                            >
-                                {selectedOrder?.status}
-                            </Badge>
-                            <Form.Select
-                                className="mt-3"
-                                value={editedStatus}
-                                onChange={(e) => setEditedStatus(e.target.value)}
-                            >
-                                {Object.values(ORDER_STATUSES).map(status => (
-                                    <option
-                                        key={status.value}
-                                        value={status.value}
-                                        style={{ color: status.color }}
-                                    >
-                                        {status.value}
-                                    </option>
-                                ))}
-                            </Form.Select>
-                        </Form.Group>
-                    </Form>
+                    {selectedOrder && (
+                        <Form>
+                            <Form.Group>
+                                <Form.Label>Current Status:</Form.Label>
+                                <Badge
+                                    className={`status-badge ${selectedOrder.status.toLowerCase()}`}
+                                    style={{
+                                        backgroundColor: ORDER_STATUSES[selectedOrder.status.toUpperCase()]?.color,
+                                        marginLeft: '10px'
+                                    }}
+                                >
+                                    {selectedOrder.status}
+                                </Badge>
+                                <Form.Select
+                                    className="mt-3"
+                                    value={editedStatus}
+                                    onChange={(e) => setEditedStatus(e.target.value)}
+                                >
+                                    {Object.entries(ORDER_STATUSES).map(([key, status]) => (
+                                        <option key={key} value={status.value}>
+                                            {status.value}
+                                        </option>
+                                    ))}
+                                </Form.Select>
+                            </Form.Group>
+                        </Form>
+                    )}
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShowEditModal(false)}>
+                    <Button variant="secondary" onClick={() => setShowEditModal(false)} disabled={loading}>
                         Cancel
                     </Button>
                     <Button
                         variant="primary"
-                        onClick={() => handleUpdateStatus(selectedOrder._id, editedStatus)}
+                        onClick={() => selectedOrder && handleUpdateStatus(selectedOrder._id, editedStatus)}
+                        disabled={loading || !selectedOrder}
                     >
-                        Update Status
+                        {loading ? (
+                            <>
+                                <Spinner
+                                    as="span"
+                                    animation="border"
+                                    size="sm"
+                                    role="status"
+                                    aria-hidden="true"
+                                    className="me-2"
+                                />
+                                Updating...
+                            </>
+                        ) : (
+                            'Update Status'
+                        )}
                     </Button>
                 </Modal.Footer>
             </Modal>
