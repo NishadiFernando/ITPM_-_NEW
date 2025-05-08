@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import CustomNavbar from './Navbar'; // Import the new Navbar component
+import Footer from './components/Footer'; // Add this import
 
 function CustomerPage() {
   const navigate = useNavigate();
@@ -950,6 +951,7 @@ function CustomerPage() {
               </Row>
             </Container>
           )}
+          <Footer />
         </>
       )}
     </div>
