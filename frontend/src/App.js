@@ -22,6 +22,7 @@ function AppWrapper() {
                 <Route path="/admin/edit" element={<AdminEdit />} />
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/flash-sale" element={<FlashSale />} />
+                //adding a video content
 
             </Routes>
         </Router>
