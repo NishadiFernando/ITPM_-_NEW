@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import './AboutUs.css';
 import CustomNavbar from './Navbar'; // Import the new Navbar component
 
-// Local images from public folder
+// Local images from public folder //cooking challenge field
 const images = {
     heroBackground: '/images/hero-bg.jpg',
     impactBackground: '/images/impact-bg.jpg',
@@ -13,7 +13,7 @@ const images = {
 //hi
 function AboutUs() {
 //recipie search bar    return (
-        <div className="about-us-page">
+        <div className="about-us-page"> 
             <CustomNavbar />
             {/* Hero Section */}
             <div className="hero-section" style={{
