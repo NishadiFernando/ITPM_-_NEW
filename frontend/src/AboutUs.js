@@ -12,7 +12,7 @@ const images = {
 };
 //hi
 function AboutUs() {
-    return (
+//recipie search bar    return (
         <div className="about-us-page">
             <CustomNavbar />
             {/* Hero Section */}
