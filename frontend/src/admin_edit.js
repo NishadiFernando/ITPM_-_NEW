@@ -120,6 +120,7 @@ function AdminEdit() {
             mainColor: saree.mainColor || '',
         });
     };
+    //adding backend
 
     const handleDelete = async (id) => {
         if (window.confirm('Are you sure you want to delete this saree?')) {
