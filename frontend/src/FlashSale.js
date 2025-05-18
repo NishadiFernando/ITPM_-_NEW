@@ -20,7 +20,7 @@ function FlashSale() {
     }, []);
 
     const handleViewDetails = (saree) => {
-        // Store the saree details in sessionStorage
+        // Store the saree details in sessionStorage //admin
         sessionStorage.setItem('selectedSaree', JSON.stringify(saree));
         navigate('/');
     };

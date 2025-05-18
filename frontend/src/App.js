@@ -25,6 +25,7 @@ function AppWrapper() {
                 //adding a video content
 
             </Routes>
+            
         </Router>
     );
 }

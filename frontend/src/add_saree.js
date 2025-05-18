@@ -169,7 +169,7 @@ function AddSaree() {
                                         placeholder="Optional"
                                     />
                                 </td>
-                            </tr>
+                            </tr>//
                             <tr>
                                 <td className="label-cell">Main Color</td>
                                 <td className="input-cell">
