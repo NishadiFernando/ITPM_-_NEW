@@ -10,7 +10,7 @@ const images = {
     sustainableFashion: '/images/sustainable-fashion.jpg',
     community: '/images/community.jpg'
 };
-
+//hi
 function AboutUs() {
     return (
         <div className="about-us-page">
