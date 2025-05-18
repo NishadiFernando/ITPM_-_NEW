@@ -8,7 +8,7 @@ const images = {
     heroBackground: '/images/hero-bg.jpg',
     impactBackground: '/images/impact-bg.jpg',
     sustainableFashion: '/images/sustainable-fashion.jpg',
-    community: '/images/community.jpg'
+    community: '/images/community.jpg' //cooking challenge
 };
 //hi
 function AboutUs() {
