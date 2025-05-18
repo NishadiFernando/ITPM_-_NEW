@@ -131,7 +131,7 @@ function AdminEdit() {
             } catch (err) {
                 console.error('Error deleting saree:', err);
                 alert('Error deleting saree: ' + err.message);
-            }//add members
+            }//add members //correcting the error
         }
     };
 
